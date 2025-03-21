@@ -88,6 +88,17 @@ int main() {
     read[0] = *reg32(SDHCI_BASE_ADDR, 0);
     printf("Read Success: '%s'\n", (char*) &read);
 
+    // *reg32(SDHCI_BASE_ADDR, 0x00C) = 0;
+
+    uint32_t state = *reg32(SDHCI_BASE_ADDR, SDHCI_PRESENT_STATE_OFFSET);
+    printf("Read Present State: '%x'\n", state);
+
+    *reg8(SDHCI_BASE_ADDR, SDHCI_COMMAND_OFFSET + 1) = 0;
+    printf("Wrote to Command Index\n");
+
+    state = *reg32(SDHCI_BASE_ADDR, SDHCI_PRESENT_STATE_OFFSET);
+    printf("Read Present State: '%x'\n", state);
+
     uart_write_flush();
     return 1;
 }
