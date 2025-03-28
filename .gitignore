@@ -1,2 +1,3 @@
 .bender
 tmp
+verilator/obj_dir
