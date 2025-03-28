@@ -7,6 +7,7 @@
 #include "print.h"
 #include "util.h"
 #include "config.h"
+#include "uart.h"
 
 const char print_lookup[16] = {'0', '1', '2', '3', '4', '5', '6', '7',
                                 '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
@@ -49,6 +50,7 @@ void printf(const char *fmt, ...) {
         }
         fmt++;
     }
-
     va_end(args);
+
+    uart_write_flush();
 }

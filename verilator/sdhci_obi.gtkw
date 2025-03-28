@@ -1,0 +1,75 @@
+[*]
+[*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
+[*] Fri Mar 21 11:12:04 2025
+[*]
+[dumpfile] "/fosic/designs/croc/verilator/croc.vcd"
+[dumpfile_mtime] "Fri Mar 21 11:10:16 2025"
+[dumpfile_size] 805800956
+[savefile] "/fosic/designs/croc/verilator/sdhci_obi.gtkw"
+[timestart] 0
+[size] 1836 1178
+[pos] -1 -1
+*-14.600954 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+[markername] AA
+[markername] BB
+[markername] CC
+[markername] DD
+[markername] EE
+[markername] FF
+[markername] GG
+[markername] HH
+[markername] II
+[markername] JJ
+[markername] KK
+[markername] LL
+[markername] MM
+[markername] NN
+[markername] OO
+[markername] PP
+[markername] QQ
+[markername] RR
+[markername] SS
+[markername] TT
+[markername] UU
+[markername] VV
+[markername] WW
+[markername] XX
+[markername] YY
+[markername] ZZ
+[treeopen] tb_croc_soc.
+[treeopen] tb_croc_soc.i_croc_soc.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.
+[sst_width] 276
+[signals_width] 142
+[sst_expanded] 1
+[sst_vpaned_height] 540
+@200
+-Request (OBI)
+@22
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.addr[31:0]
+@28
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.aid[2:0]
+@22
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.be[3:0]
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.wdata[31:0]
+@28
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.we
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.req
+@200
+-Response (OBI)
+@28
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.gnt
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.r.err
+@22
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.r.rdata[31:0]
+@28
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.r.rid[2:0]
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.rvalid
+@200
+-Register
+@22
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.addr_hit[29:0]
+[pattern_trace] 1
+[pattern_trace] 0
