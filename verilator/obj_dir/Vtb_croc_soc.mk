@@ -4,7 +4,7 @@
 # Execute this makefile from the object directory:
 #    make -f Vtb_croc_soc.mk
 
-default: libVtb_croc_soc
+default: Vtb_croc_soc
 
 ### Constants...
 # Perl executable (from $PERL, defaults to 'perl' if not set)
@@ -38,6 +38,7 @@ VM_MODPREFIX = Vtb_croc_soc
 # User CFLAGS (from -CFLAGS on Verilator command line)
 VM_USER_CFLAGS = \
 	-O1 -march=native \
+	-DVL_TIME_CONTEXT \
 
 # User LDLIBS (from -LDFLAGS on Verilator command line)
 VM_USER_LDLIBS = \
@@ -56,9 +57,13 @@ include Vtb_croc_soc_classes.mk
 # Include global rules
 include $(VERILATOR_ROOT)/include/verilated.mk
 
-### Library rules (default lib mode)
-libVtb_croc_soc.a: $(VK_OBJS) $(VK_USER_OBJS) $(VM_HIER_LIBS)
-libverilated.a: $(VK_GLOBAL_OBJS)
-libVtb_croc_soc: libVtb_croc_soc.a libverilated.a $(VM_PREFIX)__ALL.a
+### Executable rules... (from --exe)
+VPATH += $(VM_USER_DIR)
+
+
+### Link rules... (from --exe)
+Vtb_croc_soc: $(VK_USER_OBJS) $(VK_GLOBAL_OBJS) $(VM_PREFIX)__ALL.a $(VM_HIER_LIBS)
+	$(LINK) $(LDFLAGS) $^ $(LOADLIBES) $(LDLIBS) $(LIBS) $(SC_LIBS) -o $@
+
 
 # Verilated -*- Makefile -*-

@@ -38,10 +38,11 @@ VM_CLASSES_FAST += \
 	Vtb_croc_soc___024root__DepSet_h0ddea910__11 \
 	Vtb_croc_soc___024root__DepSet_h0ddea910__12 \
 	Vtb_croc_soc___024root__DepSet_h0ddea910__13 \
-	Vtb_croc_soc___024root__DepSet_h0ddea910__14 \
-	Vtb_croc_soc___024root__DepSet_h0ddea910__15 \
 	Vtb_croc_soc___024root__DepSet_ha6051a75__0 \
 	Vtb_croc_soc___024root__DepSet_ha6051a75__1 \
+	Vtb_croc_soc___024root__DepSet_ha6051a75__2 \
+	Vtb_croc_soc___024root__DepSet_ha6051a75__3 \
+	Vtb_croc_soc__main \
 
 # Generated module classes, non-fast-path, compile with low/medium optimization
 VM_CLASSES_SLOW += \
