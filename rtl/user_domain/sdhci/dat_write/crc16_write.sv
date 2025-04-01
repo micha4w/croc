@@ -36,5 +36,7 @@ module crc16_write (
   end
 
   `FF (upper_4_q, upper_4_d, 0, clk_i, rst_ni);
+  `FF (middle_7_q, middle_7_d, 0, clk_i, rst_ni);
+  `FF (lower_5_q, lower_5_d, 0, clk_i, rst_ni);
   
 endmodule
