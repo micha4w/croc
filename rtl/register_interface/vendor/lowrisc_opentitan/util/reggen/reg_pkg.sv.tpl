@@ -290,7 +290,7 @@ value = "{}'h {:x}".format(aw, r.offset)
 % endfor
   } ${lpfx}_id_e;
 
-  // Register width information to check illegal writes${for_iface}
+  // Register bytemaks used to see if a register is to be written to ${for_iface}
   parameter logic [3:0] ${upfx}_BYTEMASK [${len(rb.flat_regs)}] = '{
   % for i, r in enumerate(rb.flat_regs):
 <%
@@ -303,7 +303,7 @@ value = "{}'h {:x}".format(aw, r.offset)
   % endfor
   };
 
-  // Register boudary crossing infromation to make sure we don't write to half a register
+  // Register boudary crossing infromation to make sure we don't write to half of a field${for_iface}
   parameter logic [3:0] ${upfx}_DISALLOWED_BOUNDARY_CROSSINGS [${len(rb.flat_regs)}] = '{
   % for i, r in enumerate(rb.flat_regs):
 <%
