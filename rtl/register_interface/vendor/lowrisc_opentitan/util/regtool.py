@@ -190,7 +190,6 @@ def main():
     try:
         obj = IpBlock.from_text(srcfull, params, infile.name)
     except ValueError as err:
-        raise
         log.error(str(err))
         exit(1)
 

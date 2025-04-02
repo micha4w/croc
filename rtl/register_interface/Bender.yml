@@ -16,6 +16,7 @@ sources:
   - lowrisc_opentitan/prim_subreg_arb.sv
   - lowrisc_opentitan/prim_subreg_ext.sv
   # Level 1
+  - obi_to_reg.sv
   - periph_to_reg.sv
   - reg_to_apb.sv
   - lowrisc_opentitan/prim_subreg_shadow.sv
