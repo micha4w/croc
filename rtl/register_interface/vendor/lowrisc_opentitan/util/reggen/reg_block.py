@@ -213,7 +213,8 @@ class RegBlock:
         local_offset = 0
         for i, body in enumerate(reg_bodies):
             reg = Register.from_raw(self._reg_width, self.offset, self._params, body)
-            reg.spans = 0
+            if i < len(reg_bodies) - 1:
+                reg.doesnt_increment_offset = True
 
             byte_width = (reg.get_width() + 7) // 8 * 8
 
@@ -225,8 +226,6 @@ class RegBlock:
         
         if local_offset > self._reg_width:
             raise ValueError(f'Packed register is larger than regwidth ({local_offset} > {self._reg_width})')
-
-        self.offset += self._addrsep
 
     def add_register(self, reg: Register) -> None:
         assert reg.offset == self.offset

@@ -1,5 +1,5 @@
---- a/Bender.yml	2025-03-21 15:10:21.879089644 +0100
-+++ b/Bender.yml	2025-03-21 15:10:28.787108862 +0100
+--- a/Bender.yml	2025-04-02 23:29:10.767475552 +0200
++++ b/Bender.yml	2025-04-02 23:28:57.677446696 +0200
 @@ -3,7 +3,6 @@
    authors: ["Fabian Schuiki <fschuiki@iis.ee.ethz.ch>", "Florian Zaruba <zarubaf@iis.ee.ethz.ch>"]
  
@@ -8,7 +8,7 @@
    apb: { git: "https://github.com/pulp-platform/apb.git", version: 0.2.2}
    common_cells: { git: "https://github.com/pulp-platform/common_cells.git", version: 1.21.0 }
    common_verification: { git: "https://github.com/pulp-platform/common_verification.git", version: 0.2.3 }
-@@ -13,50 +12,11 @@
+@@ -13,51 +12,12 @@
  
  sources:
    # Level 0
@@ -22,6 +22,7 @@
 -  - src/apb_to_reg.sv
 -  - src/axi_lite_to_reg.sv
 -  - src/axi_to_reg_v2.sv
+-  - src/obi_to_reg.sv
 -  - src/periph_to_reg.sv
 -  - src/reg_cdc.sv
 -  - src/reg_cut.sv
@@ -62,6 +63,7 @@
 -      - {from: 'hw/ip/prim/rtl/prim_subreg_arb.sv', to: 'src/prim_subreg_arb.sv' }
 -      - {from: 'hw/ip/prim/rtl/prim_subreg_ext.sv', to: 'src/prim_subreg_ext.sv' }
 -      - {from: 'hw/ip/prim/rtl/prim_subreg_shadow.sv', to: 'src/prim_subreg_shadow.sv' }
++  - obi_to_reg.sv
 +  - periph_to_reg.sv
 +  - reg_to_apb.sv
 +  - lowrisc_opentitan/prim_subreg_shadow.sv
