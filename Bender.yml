@@ -65,6 +65,7 @@ sources:
       - rtl/user_domain/sdhci/rsp_read/sd_bus_cmd_receiver.sv
       
       - rtl/user_domain/sdhci/dat_write/crc16_write.sv
+      - rtl/user_domain/sdhci/dat_write/sd_bus_dat_driver.sv
       - rtl/user_domain/sdhci/dat_write/dat_write.sv
 
 
