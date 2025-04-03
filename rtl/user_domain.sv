@@ -23,7 +23,7 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   output logic [NumExternalIrqs-1:0] interrupts_o // interrupts to core
 );
 
-  assign interrupts_o = '0;  
+  assign interrupts_o[NumExternalIrqs-1:1] = '0;  
 
 
   //////////////////////
@@ -130,6 +130,8 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
       .rst_ni,
 
       .obi_req_i (user_sdhci_obi_req),
-      .obi_rsp_o (user_sdhci_obi_rsp)
+      .obi_rsp_o (user_sdhci_obi_rsp),
+
+      .interrupt_o(interrupts_o[0])
   );
 endmodule
