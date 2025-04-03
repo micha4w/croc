@@ -24,7 +24,7 @@ RISCV_AR      ?= $(RISCV_PREFIX)ar
 RISCV_LD      ?= $(RISCV_PREFIX)ld
 RISCV_STRIP   ?= $(RISCV_PREFIX)strip
 
-RISCV_FLAGS    ?= -march=$(RISCV_MARCH) -mabi=$(RISCV_MABI) -mcmodel=medany -static -std=gnu99 -Os -nostdlib -fno-builtin -ffreestanding
+RISCV_FLAGS    ?= -march=$(RISCV_MARCH) -mabi=$(RISCV_MABI) -mcmodel=medany -static -std=gnu99 -fno-builtin -ffreestanding -flto -Os -s
 RISCV_CCFLAGS  ?= $(RISCV_FLAGS) -Iinclude -I$(INCDIR) -I$(CURDIR)
 RISCV_LDFLAGS  ?= -static -nostartfiles -lm -lgcc $(RISCV_FLAGS)
 
@@ -76,4 +76,4 @@ clean:
 	rm -rf $(BINDIR)
 	rm -f *.o
 
-compile: $(BINDIR) $(ALL_TARGETS)
+compile: $(BINDIR) $(ALL_TARGETS) $(LINK) 
