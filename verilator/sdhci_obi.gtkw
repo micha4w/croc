@@ -1,15 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Fri Mar 21 11:12:04 2025
+[*] Thu Apr  3 21:33:22 2025
 [*]
 [dumpfile] "/fosic/designs/croc/verilator/croc.vcd"
-[dumpfile_mtime] "Fri Mar 21 11:10:16 2025"
-[dumpfile_size] 805800956
+[dumpfile_mtime] "Thu Apr  3 21:32:55 2025"
+[dumpfile_size] 762614272
 [savefile] "/fosic/designs/croc/verilator/sdhci_obi.gtkw"
 [timestart] 0
-[size] 1836 1178
+[size] 1596 1411
 [pos] -1 -1
-*-14.600954 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+*-30.950832 -1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -40,9 +40,10 @@
 [treeopen] tb_croc_soc.i_croc_soc.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_shift.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.
 [sst_width] 276
-[signals_width] 142
+[signals_width] 260
 [sst_expanded] 1
 [sst_vpaned_height] 540
 @200
@@ -71,5 +72,15 @@ tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.rvalid
 -Register
 @22
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.addr_hit[29:0]
+@200
+-SRAM
+@22
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_shift.read_data_o[31:0]
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_shift.write_addr_d[9:0]
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_shift.write_addr_q[9:0]
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_shift.write_data_i[31:0]
+@28
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_shift.empty_o
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_shift.full_o
 [pattern_trace] 1
 [pattern_trace] 0
