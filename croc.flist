@@ -132,6 +132,7 @@
 /fosic/designs/croc/rtl/register_interface/reg_intf.sv
 /fosic/designs/croc/rtl/register_interface/lowrisc_opentitan/prim_subreg_arb.sv
 /fosic/designs/croc/rtl/register_interface/lowrisc_opentitan/prim_subreg_ext.sv
+/fosic/designs/croc/rtl/register_interface/obi_to_reg.sv
 /fosic/designs/croc/rtl/register_interface/periph_to_reg.sv
 /fosic/designs/croc/rtl/register_interface/reg_to_apb.sv
 /fosic/designs/croc/rtl/register_interface/lowrisc_opentitan/prim_subreg_shadow.sv
@@ -167,5 +168,15 @@
 /fosic/designs/croc/rtl/croc_soc.sv
 /fosic/designs/croc/rtl/user_domain/sdhci/reg/sdhci_reg_top.sv
 /fosic/designs/croc/rtl/user_domain/sdhci/user_sdhci.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/cmd_write/cmd_write.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/cmd_write/crc7_write.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/par_ser_shift_reg.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/ser_par_shift_reg.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/rsp_read/crc7_read.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/rsp_read/rsp_read.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/rsp_read/sd_bus_cmd_receiver.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/dat_write/crc16_write.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/dat_write/sd_bus_dat_driver.sv
+/fosic/designs/croc/rtl/user_domain/sdhci/dat_write/dat_write.sv
 /fosic/designs/croc/rtl/croc_chip.sv
 
