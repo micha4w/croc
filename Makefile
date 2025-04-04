@@ -99,6 +99,7 @@ VERILATOR_ARGS += --binary -j 0
 VERILATOR_ARGS += --timing --autoflush --trace-fst --trace-threads 2 --trace-structs
 VERILATOR_ARGS +=  --unroll-count 1 --unroll-stmts 1
 VERILATOR_ARGS += --x-assign fast --x-initial fast
+VERILATOR_ARGS +=  --assert
 VERILATOR_CFLAGS += -O3 -march=native -mtune=native
 
 verilator/croc.f: Bender.lock Bender.yml
