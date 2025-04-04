@@ -51,6 +51,7 @@ sources:
       # Level 3
       - rtl/croc_soc.sv
 
+      - rtl/user_domain/sdhci/sram_shift_reg.sv
       - rtl/user_domain/sdhci/reg/sdhci_reg_top.sv
       - rtl/user_domain/sdhci/user_sdhci.sv
       
