@@ -367,7 +367,7 @@ module croc_domain import croc_pkg::*; #(
       .rdata_i ( bank_rdata )
     );
 
-    assign bank_word_addr = bank_byte_addr[SbrObiCfg.AddrWidth-1:2];
+    assign bank_word_addr = SramBankAddrWidth'(bank_byte_addr[SbrObiCfg.AddrWidth-1:2]);
 
     tc_sram_impl #(
       .NumWords  ( SramBankNumWords ),

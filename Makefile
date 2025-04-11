@@ -53,7 +53,7 @@ clean-deps:
 ############
 SW_HEX := sw/bin/helloworld.hex
 
-$(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld
+$(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld sw/lib/src/*.c sw/lib/inc/*.h
 	$(MAKE) -C sw/ compile
 
 ## Build all top-level programs in sw/
@@ -103,10 +103,10 @@ VERILATOR_ARGS +=  --assert
 VERILATOR_CFLAGS += -O3 -march=native -mtune=native
 
 verilator/croc.f: Bender.lock Bender.yml
-	$(BENDER) script verilator -t rtl -t verilator -DSYNTHESIS -DVERILATOR > $@
+	$(BENDER) script verilator -t rtl -t verilator -t with_sd_model -DSYNTHESIS -DVERILATOR > $@ 
 
 verilator/obj_dir/Vtb_croc_soc: verilator/croc.f $(SW_HEX)
-	cd verilator; $(VERILATOR) $(VERILATOR_ARGS) -O3 --top tb_croc_soc -f croc.f
+	cd verilator; $(VERILATOR) $(VERILATOR_ARGS) -O3 --top tb_croc_soc config.vlt -f croc.f
 
 ## Simulate RTL using Verilator
 verilator: verilator/obj_dir/Vtb_croc_soc
