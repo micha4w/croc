@@ -1,0 +1,21 @@
+`verilator_config
+lint_off -rule unoptflat
+
+lint_off -file "*rtl/riscv-dbg/*" -match "*" 
+lint_off -file "*rtl/tech_cells_generic/*" -match "*" 
+lint_off -file "*rtl/common_cells/*" -match "*" 
+lint_off -file "*rtl/timer_unit/*" -match "*" 
+lint_off -file "*rtl/gpio/*" -match "*" 
+lint_off -file "*rtl/apb_uart/*" -match "*" 
+lint_off -file "*rtl/obi/*" -match "*" 
+
+tracing_off -file "*rtl/riscv-dbg/*"
+tracing_off -file "*rtl/tech_cells_generic/*"
+tracing_off -file "*rtl/common_cells/*"
+tracing_off -file "*rtl/timer_unit/*"
+tracing_off -file "*rtl/gpio/*"
+tracing_off -file "*rtl/apb_uart/*"
+tracing_off -file "*rtl/obi/*"
+
+lint_off -file "*rtl/tb_croc_soc.sv" -match "*" 
+lint_off -file "*rtl/user_domain/sdhci/model/*" -match "*" 
