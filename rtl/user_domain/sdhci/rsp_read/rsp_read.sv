@@ -11,6 +11,7 @@ module rsp_read (
   input logic long_rsp_i,        //high if response is of type R2 (136 bit)
   input logic start_listening_i,  //should be asserted 2nd cycle after end bit of CMD
   
+  output  logic receiving_o,       //start bit was observed
   output  logic rsp_valid_o,     //write response, end_bit_err and crc_corr to register
   output  logic end_bit_err_o,    //valid at the same time as response
   output  logic [119:0] rsp_o,   //without start, transmission, reserved and end bits
@@ -81,6 +82,7 @@ module rsp_read (
     cnt_en                  = 1'b0;
     end_bit_err_o           = 1'b1;
     rsp_valid_o             = 1'b0;
+    receiving_o             = 1'b0;
 
 
     unique case (rx_state_q)
@@ -89,12 +91,14 @@ module rsp_read (
         //?
       end
       
-      WAIT_FOR_START_BIT: start_bit_observed = ~rsp_ser;
-
+      WAIT_FOR_START_BIT: begin 
+        start_bit_observed = ~rsp_ser;
+      end
       SHIFT_IN:           begin
         cnt_clear = 1'b0;
         cnt_en    = 1'b1;
-        
+        receiving_o = 1'b1;
+
         if  (bit_cnt >= shift_start_cnt) shift_reg_shift_in_en = 1'b1;
 
         if  (bit_cnt == crc_start_cnt)    crc_start = 1'b1;
@@ -111,7 +115,8 @@ module rsp_read (
       FINISHED:           begin
         shift_reg_par_output_en = 1'b1;
         rsp_valid_o             = 1'b1;
-        
+        receiving_o             = 1'b1;
+
         crc_corr_o    = (crc7_calc == rsp_with_crc7[6:0]) ? 1'b1  : 1'b0;
         end_bit_err_o = ~rsp_ser;
       end
