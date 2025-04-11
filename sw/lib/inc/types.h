@@ -8,6 +8,7 @@
 
 
 #define SDHC_DEBUG 1
+#define SDMMC_DEBUG 1
 
 
 typedef unsigned char u_char;
