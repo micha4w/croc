@@ -117,7 +117,7 @@ verilator: verilator/obj_dir/Vtb_croc_soc
 TOP_DESIGN     ?= croc_chip
 DUT_DESIGN	   ?= croc_soc
 BENDER_TARGETS ?= asic ihp13 rtl synthesis
-SV_DEFINES     ?= VERILATOR SYNTHESIS COMMON_CELLS_ASSERTS_OFF
+SV_DEFINES     ?= SYNTHESIS COMMON_CELLS_ASSERTS_OFF
 
 ## Generate croc.flist used to read design in yosys
 SV_FLIST := $(PROJ_DIR)/croc.flist

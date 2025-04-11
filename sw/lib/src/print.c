@@ -4,6 +4,8 @@
 //
 // Philippe Sauter <phsauter@iis.ee.ethz.ch>
 
+#include <stdlib.h>
+
 #include "print.h"
 #include "util.h"
 #include "config.h"
@@ -19,8 +21,22 @@ void printf(const char *fmt, ...) {
     while (*fmt) {
         if (*fmt == '%') {
             fmt++;
-            if (*fmt == 'x') { // hex
-                unsigned int hex = va_arg(args, unsigned int);
+            if (*fmt == '#') fmt++;
+            while ('0' <= *fmt && *fmt <= '9') fmt++;
+
+            if (*fmt == 'd' || *fmt == 'u') { // decimal
+                unsigned int decimal = va_arg(args, unsigned int);
+                char out[12] = {0};
+                itoa(decimal, out, 10);
+
+                char* str = out;
+                while(*str) {
+                    putchar(*str++);
+                }
+
+            } else if (*fmt == 'x' || *fmt == 'p') { // hex
+                unsigned int hex = *fmt == 'x' ? va_arg(args, unsigned int) : (unsigned int) va_arg(args, void*);
+
                 char buffer[11];  // holds string while assembling
                 unsigned int i = 0;
 
