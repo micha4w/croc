@@ -69,6 +69,7 @@ module cmd_write (
     crc7_shift_en = 1'b0;
     sd_cmd        = 1'bX;
     highz         = 1'b1;
+    tx_done_o     = 1'b1;
     
     unique case (tx_state_q)
       READY:        tx_ongoing_d = 1'd0;
@@ -76,18 +77,21 @@ module cmd_write (
       START_CNT:    begin
         tx_ongoing_d = 1'b1;
         par_write_en = 1'b1;
+        tx_done_o    = 1'b0;
       end
 
       SHIFT_REG_OUT:begin
         shift_en    = 1'b1;
         highz       = 1'b0; //bus active
         sd_cmd      = shift_reg_out;
+        tx_done_o   = 1'b0;
       end
 
       CRC7_OUT:     begin
         crc7_shift_en = 1'b1;
         highz         = 1'b0; //bus active
         sd_cmd        = crc7_out;
+        tx_done_o     = 1'b0;
       end
 
       END_BIT_OUT:  begin
@@ -98,9 +102,7 @@ module cmd_write (
 
       default: ;
     endcase
-  end
-
-  assign  tx_done_o = ~tx_ongoing_q; 
+  end 
 
   `FF (tx_ongoing_q, tx_ongoing_d, 0, sd_freq_clk_i, rst_ni);
 

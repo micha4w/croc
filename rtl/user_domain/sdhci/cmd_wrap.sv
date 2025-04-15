@@ -5,18 +5,18 @@ module cmd_wrap (
   input   logic sd_clk_i,
   input   logic rst_ni,
 
-  input   logic sd_bus_cmd_i;
-  output  logic sd_bus_cmd_o;
-  output  logic sd_bus_cmd_en_o;
+  input   logic sd_bus_cmd_i,
+  output  logic sd_bus_cmd_o,
+  output  logic sd_bus_cmd_en_o,
 
   input   sdhci_reg2hw_t reg2hw,
 
-  input   logic busy_dat0,    //busy signal on dat0 line
+  input   logic busy_dat0_i,    //busy signal on dat0 line
 
-  output  logic hw2reg_response0_d, //hook up to hw2reg.response0.d etc.
-  output  logic hw2reg_response1_d,
-  output  logic hw2reg_response2_d,
-  output  logic hw2reg_response3_d,
+  output  logic [31:0] hw2reg_response0_d, //hook up to hw2reg.response0.d etc.
+  output  logic [31:0] hw2reg_response1_d,
+  output  logic [31:0] hw2reg_response2_d,
+  output  logic [31:0] hw2reg_response3_d,
   output  logic hw2reg_response0_de,
   output  logic hw2reg_response1_de,
   output  logic hw2reg_response2_de,
@@ -25,14 +25,14 @@ module cmd_wrap (
   output  logic hw2reg_present_state_command_inhibit_cmd_d,
   output  logic hw2reg_present_state_command_inhibit_cmd_de,
   output  logic hw2reg_present_state_command_inhibit_dat_d,
-  output  logic hw2reg_present_state_command_inhibit_dat_d,
+  output  logic hw2reg_present_state_command_inhibit_dat_de,
 
   output  logic hw2reg_error_interrupt_status_command_end_bit_error_d,
   output  logic hw2reg_error_interrupt_status_command_end_bit_error_de,
   output  logic hw2reg_error_interrupt_status_command_crc_error_d,
   output  logic hw2reg_error_interrupt_status_command_crc_error_de,
   output  logic hw2reg_error_interrupt_status_command_index_error_d,
-  output  logic hw2reg_error_interrupt_status_command_index_error_de
+  output  logic hw2reg_error_interrupt_status_command_index_error_de,
   output  logic hw2reg_error_interrupt_status_command_timeout_error_d,
   output  logic hw2reg_error_interrupt_status_command_timeout_error_de
 );
@@ -51,20 +51,24 @@ module cmd_wrap (
   logic cnt_en, cnt_clr;  //for N_rc (for now)
 
   cmd_seq_state_e cmd_seq_state_d, cmd_seq_state_q;
-
+      
   always_comb begin : cmd_sequence_next_state
     cmd_seq_state_d = cmd_seq_state_q;
 
     unique case (cmd_seq_state_q)
       READY:          cmd_seq_state_d = (start_tx_q) ?  WRITE_CMD : READY;
 
-      WRITE_CMD:      cmd_seq_state_d = (tx_done) ? BUS_SWITCH  : WRITE_CMD;  //possibly unstable, observe!
-      
+      WRITE_CMD:      begin
+        cmd_seq_state_d = WRITE_CMD;
+        if (tx_done) begin  //possibly unstable, observe!
+          cmd_seq_state_d = (reg2hw.command.response_type_select.q == 2'b00) ? RSP_RECEIVED : BUS_SWITCH;
+        end
+      end
       BUS_SWITCH:     cmd_seq_state_d = (reg2hw.command.response_type_select == 2'b11) ?  READ_RSP_BUSY : READ_RSP;
 
       READ_RSP:       cmd_seq_state_d = (rsp_valid) ? RSP_RECEIVED : READ_RSP;
 
-      READ_RSP_BUSY:  cmd_seq_state_d = (rsp_valid & ~busy_dat0) ? RSP_RECEIVED  : READ_RSP_BUSY;
+      READ_RSP_BUSY:  cmd_seq_state_d = (rsp_valid & ~busy_dat0_i) ? RSP_RECEIVED  : READ_RSP_BUSY;
       
       RSP_RECEIVED:   cmd_seq_state_d = (cnt == 3'd7) ? READY : RSP_RECEIVED;
 
@@ -74,13 +78,13 @@ module cmd_wrap (
     endcase
   end
 
-  `FF (cmd_seq_state_q, cmd_seq_state_d, READY, sd_freq_clk_i, rst_ni);
+  `FF (cmd_seq_state_q, cmd_seq_state_d, READY, sd_clk_i, rst_ni);
 
-  logic check_end_bit_err, check_crc_err, check_index_err,
+  logic check_end_bit_err, check_crc_err, check_index_err;
   
   assign check_end_bit_err  = reg2hw.error_interrupt_status_enable.command_end_bit_error_status_enable.q;
-  assign check_crc_err  = reg2hw.error_interrupt_status_enable.command_crc_error.q & reg2hw.command.command_crc_check_enable.q;
-  assign check_index_err  = reg2hw.reg2hw.error_interrupt_status.command_index_error.q & reg2hw.command.command_index_check_enable.q;
+  assign check_crc_err  = reg2hw.error_interrupt_status_enable.command_crc_error_status_enable.q & reg2hw.command.command_crc_check_enable.q;
+  assign check_index_err  = reg2hw.error_interrupt_status_enable.command_index_error_status_enable.q & reg2hw.command.command_index_check_enable.q;
   
   always_comb begin : cmd_seq_ctrl
     start_listening = 1'b0;
@@ -100,7 +104,7 @@ module cmd_wrap (
     unique case (cmd_seq_state_q)
       READY:;   
 
-      WRITE_CMD:;
+      WRITE_CMD: hw2reg_present_state_command_inhibit_cmd_de = 1'b1;
 
       BUS_SWITCH:     begin
         start_listening =  1'b1;
@@ -140,7 +144,14 @@ module cmd_wrap (
           hw2reg_present_state_command_inhibit_cmd_de = 1'b1;
         end
       end
+
+      ERROR: ;
     endcase
+
+    if (!rst_ni) begin  : cmd_soft_reset
+      hw2reg_present_state_command_inhibit_cmd_d = 1'b0;
+      hw2reg_present_state_command_inhibit_cmd_de = 1'b1;
+    end 
   end
   
   logic tx_done, start_tx_d, start_tx_q, start_tx_rst_n;
@@ -160,7 +171,8 @@ module cmd_wrap (
   cmd_write i_cmd_write (
     .sd_freq_clk_i  (sd_clk_i),
     .rst_ni         (rst_ni),
-    .cmd_i          (sd_bus_cmd_i),
+    .cmd_o          (sd_bus_cmd_o),
+    .cmd_en_o       (sd_bus_cmd_en_o),
     .start_tx_i     (start_tx_d), //need to buffer when registers run faster than sd cmd_write
     .cmd_argument_i (reg2hw.argument.q),
     .cmd_nr_i       (reg2hw.command.command_index.q),
@@ -176,8 +188,7 @@ module cmd_wrap (
   rsp_read  i_rsp_read (
     .sd_clk_i           (sd_clk_i),
     .rst_ni             (rst_ni),
-    .cmd_o              (sd_bus_cmd_o),
-    .cmd_en_o           (sd_bus_cmd_en_o),
+    .cmd_i              (sd_bus_cmd_i),
     .long_rsp_i         (long_rsp),
     .start_listening_i  (start_listening),
     .receiving_o        (receiving),
@@ -247,7 +258,7 @@ module cmd_wrap (
     .load_i     (1'b0), //always start at 0, no loading needed
     .down_i     (1'b0), //count up
     .d_i        (6'b0), //not needed
-    .q_o        (cnt)),  
+    .q_o        (cnt),  
     .overflow_o ()  //overflow not needed
   );
 

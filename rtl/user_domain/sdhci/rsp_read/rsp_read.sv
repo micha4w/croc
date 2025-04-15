@@ -33,7 +33,7 @@ module rsp_read (
 
     unique case (rx_state_q)
       
-      INACTIVE:           rx_state_d  = (start_listening_i) ? INACTIVE  : WAIT_FOR_START_BIT;
+      INACTIVE:           rx_state_d  = (start_listening_i) ? WAIT_FOR_START_BIT  : INACTIVE;
       
       WAIT_FOR_START_BIT: rx_state_d  = (start_bit_observed)? SHIFT_IN  : WAIT_FOR_START_BIT;
 
@@ -63,12 +63,12 @@ module rsp_read (
   logic cnt_clear, cnt_en;
   logic [7:0] bit_cnt;
 
-  logic [8:0] shift_start_cnt, crc_start_cnt, done_cnt;
+  logic [8:0] shift_start_cnt, crc_done_cnt, done_cnt;
   logic [126:0] rsp_with_crc7;
 
-  assign shift_start_cnt= (long_rsp_i)  ? 8'd7    : 8'd2;      //should be right
-  assign crc_start_cnt  = (long_rsp_i)  ? 8'd126  : 8'd38;     //could be wrong
-  assign done_cnt       = (long_rsp_i)  ? 8'd134  : 8'd46;     //could be wrong
+  assign shift_start_cnt= (long_rsp_i)  ? 8'd7    : 8'd1;      
+  assign crc_done_cnt  = (long_rsp_i)  ? 8'd126  : 8'd38;     //long could be wrong
+  assign done_cnt       = (long_rsp_i)  ? 8'd134  : 8'd46;     //long could be wrong
   assign rsp_o  = rsp_with_crc7 [126:7];
   always_comb begin : rsp_data_path
     start_bit_observed      = 1'b0;
@@ -92,21 +92,27 @@ module rsp_read (
       end
       
       WAIT_FOR_START_BIT: begin 
-        start_bit_observed = ~rsp_ser;
+        start_bit_observed  = ~rsp_ser;
+        if(~long_rsp_i) crc_start = ~rsp_ser; //start crc for short response
       end
       SHIFT_IN:           begin
         cnt_clear = 1'b0;
         cnt_en    = 1'b1;
         receiving_o = 1'b1;
+        if(bit_cnt >= 2'd4) crc_start = 1'b1; //start crc for long response, check!
 
-        if  (bit_cnt >= shift_start_cnt) shift_reg_shift_in_en = 1'b1;
+        if  (bit_cnt >= shift_start_cnt) begin
+          shift_reg_shift_in_en = 1'b1;
+        end
 
-        if  (bit_cnt == crc_start_cnt)    crc_start = 1'b1;
+        if(bit_cnt >= crc_done_cnt) begin 
+          crc_start      =  1'b0;
+          crc_end_output =  1'b1;
+        end
 
         if  (bit_cnt >= done_cnt) begin
           cnt_en                  = 1'b0;
           all_bits_received       = 1'b1;
-          crc_end_output          = 1'b1;
           shift_reg_shift_in_en   = 1'b0;
           shift_reg_par_output_en = 1'b1;
         end
