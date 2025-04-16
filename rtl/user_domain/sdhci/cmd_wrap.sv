@@ -1,4 +1,5 @@
 import sdhci_reg_pkg::*;
+`include "common_cells/registers.svh"
 
 module cmd_wrap (
   input   logic clk_i,

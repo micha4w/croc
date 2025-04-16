@@ -99,7 +99,7 @@ module rsp_read (
         cnt_clear = 1'b0;
         cnt_en    = 1'b1;
         receiving_o = 1'b1;
-        if(bit_cnt >= 2'd4) crc_start = 1'b1; //start crc for long response, check!
+        if(bit_cnt >= 8'd4) crc_start = 1'b1; //start crc for long response, check!
 
         if  (bit_cnt >= shift_start_cnt) begin
           shift_reg_shift_in_en = 1'b1;
