@@ -14,7 +14,7 @@ module rsp_read (
   output  logic receiving_o,       //start bit was observed
   output  logic rsp_valid_o,     //write response, end_bit_err and crc_corr to register
   output  logic end_bit_err_o,    //valid at the same time as response
-  output  logic [119:0] rsp_o,   //without start, transmission, reserved and end bits
+  output  logic [119:0] rsp_o,   //without start, transmission, reserved, crc and end bits
   output  logic crc_corr_o       //active if crc7 was correct, valid when rsp_valid_o is active
 );
   //state transition
