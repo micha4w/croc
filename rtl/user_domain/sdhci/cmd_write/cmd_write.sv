@@ -12,6 +12,7 @@ module cmd_write (
   input   logic         start_tx_i,     //start transmission, only works when tx_done_o is high
   input   logic [31:0]  cmd_argument_i, //from cmd argument register
   input   logic [5:0]   cmd_nr_i, //cmd index (eg. CMD12 == 6'b001100)
+  input   logic         cmd_phase_i,     //if high, send on negative edge of clock, else positive edge
 
   output  logic         tx_done_o //high when nothing is currently being transmitted (module is in READY state)
 );
@@ -56,10 +57,11 @@ module cmd_write (
   assign cmd_bits_47_to_8 [37:32] = cmd_nr_i;
   assign cmd_bits_47_to_8 [31:0]  = cmd_argument_i;
 
-  logic par_write_en, shift_en, crc7_shift_en, shift_reg_out, crc7_out, highz, sd_cmd;
+  logic par_write_en, shift_en, crc7_shift_en, shift_reg_out, crc7_out, highz, sd_cmd, sd_cmd_delayed;
   logic tx_ongoing_d, tx_ongoing_q;
 
-  assign cmd_o = sd_cmd;
+  
+  assign cmd_o = (cmd_phase_i) ?  sd_cmd_delayed  : sd_cmd;
   assign cmd_en_o = ~highz;
   
   always_comb begin : cmd_tx_datapath
@@ -67,7 +69,7 @@ module cmd_write (
     par_write_en  = 1'b0;
     shift_en      = 1'b0;
     crc7_shift_en = 1'b0;
-    sd_cmd        = 1'bX;
+    sd_cmd        = 1'b1;//should be fine?
     highz         = 1'b1;
     tx_done_o     = 1'b1;
     
@@ -105,6 +107,10 @@ module cmd_write (
   end 
 
   `FF (tx_ongoing_q, tx_ongoing_d, 0, sd_freq_clk_i, rst_ni);
+
+  //delay to negative edge
+  logic inv_clock = ~sd_freq_clk_i;
+  `FF (sd_cmd_delayed ,sd_cmd, '1, inv_clock, rst_ni);
 
   par_ser_shift_reg #(
     .NumBits    (40), //start bit + transmission bit + 6 cmd bits + 32 argument bits

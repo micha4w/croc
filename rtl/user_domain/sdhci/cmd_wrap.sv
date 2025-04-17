@@ -86,7 +86,7 @@ module cmd_wrap (
   assign check_end_bit_err  = reg2hw.error_interrupt_status_enable.command_end_bit_error_status_enable.q;
   assign check_crc_err  = reg2hw.error_interrupt_status_enable.command_crc_error_status_enable.q & reg2hw.command.command_crc_check_enable.q;
   assign check_index_err  = reg2hw.error_interrupt_status_enable.command_index_error_status_enable.q & reg2hw.command.command_index_check_enable.q;
-  
+
   always_comb begin : cmd_seq_ctrl
     start_listening = 1'b0;
     cnt_en  = 1'b0;
@@ -154,6 +154,17 @@ module cmd_wrap (
       hw2reg_present_state_command_inhibit_cmd_de = 1'b1;
     end 
   end
+
+  //cmd phase assignment
+  logic cmd_phase_d, cmd_phase_q;
+  always_comb begin : cmd_phase_assignment
+    cmd_phase_d = cmd_phase_q;
+
+    if (cmd_seq_state_q != WRITE_CMD) begin
+      cmd_phase_d = ~reg2hw.host_control.high_speed_enable.q; 
+    end 
+  end
+  `FF (cmd_phase_q, cmd_phase_d, 1'b1, sd_clk_i, rst_ni);
   
   logic tx_done, start_tx_d, start_tx_q, start_tx_rst_n;
 
@@ -168,7 +179,7 @@ module cmd_wrap (
   
   `FF (start_tx_q, start_tx_d, 1'b0, clk_i, start_tx_rst_n); 
 
-  
+
   cmd_write i_cmd_write (
     .sd_freq_clk_i  (sd_clk_i),
     .rst_ni         (rst_ni),
@@ -177,6 +188,7 @@ module cmd_wrap (
     .start_tx_i     (start_tx_d), //need to buffer when registers run faster than sd cmd_write
     .cmd_argument_i (reg2hw.argument.q),
     .cmd_nr_i       (reg2hw.command.command_index.q),
+    .cmd_phase_i    (cmd_phase_d),
     .tx_done_o      (tx_done)
   );
 
