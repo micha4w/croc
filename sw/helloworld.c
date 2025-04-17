@@ -80,6 +80,7 @@ int main() {
     // simple printf support (only prints text and hex numbers)
     printf("Hello World!\n");
     
+#define SDHC_TEST
 #ifdef SDHC_TEST
     // *reg16(SDHCI_BASE_ADDR, SDHCI_CLOCK_CONTROL_OFFSET) = 0x0004;
 
