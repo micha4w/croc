@@ -21,16 +21,22 @@ jobs:
         with:
           submodules: true
 
+      - name: Download Model
+        shell: bash
+        run: make -C rtl/user_domain/sdhci deps
+
       - name: Run simulation commands in OSEDA
         uses: ./.github/actions/oseda-cmd
         with:
           cmd: "make SW_HEX=sw/bin/helloworld.hex verilator"
+
       - name: Upload built software
         uses: actions/upload-artifact@v4
         with:
           name: croc-sw
           path: sw/bin
         continue-on-error: true
+
       - name: Upload waveform
         uses: actions/upload-artifact@v4
         with:
