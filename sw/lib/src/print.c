@@ -68,5 +68,7 @@ void printf(char *fmt, ...) {
     }
     va_end(args);
 
+#ifdef CROC_FLUSH_AFTER_PRINT
     uart_write_flush();
+#endif
 }
