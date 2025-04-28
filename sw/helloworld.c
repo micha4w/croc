@@ -44,11 +44,11 @@ int main() {
     gpio_write(0x0A);  // ready output pattern
     gpio_enable(0xFF); // enable lowest eight
     // wait a few cycles to give GPIO signal time to propagate
-    asm volatile ("nop; nop; nop; nop; nop;");
+    asm volatile ("nop\n nop\n nop\n nop\n nop");
     printf("GPIO (expect 0xA0): 0x%x\n", gpio_read());
 
     gpio_toggle(0x0F); // toggle lower 8 GPIOs
-    asm volatile ("nop; nop; nop; nop; nop;");
+    asm volatile ("nop\n nop\n nop\n nop\n nop");
     printf("GPIO (expect 0x50): 0x%x\n", gpio_read());
     uart_write_flush();
 
@@ -64,5 +64,9 @@ int main() {
     sleep_ms(10);
     printf("Tock\n");
     uart_write_flush();
+
+    printf("\n");
+    uart_write_flush();
+
     return 1;
 }
