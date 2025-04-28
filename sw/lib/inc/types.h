@@ -10,6 +10,8 @@
 #define SDHC_DEBUG 1
 #define SDMMC_DEBUG 1
 
+extern int debug_funcs;
+#define DFUNC(name) if (debug_funcs) { printf(#name"\n"); }
 
 typedef unsigned char u_char;
 typedef unsigned short u_short;
@@ -57,6 +59,8 @@ typedef u_long bus_size_t;
 #define ISSET(t, f)	((t) & (f))
 
 #define nitems(_a)	(sizeof((_a)) / sizeof((_a)[0]))
+// int bzero(void*, int);
+// int bcopy(void*, void*, int);
 
 // #define	MIN(a,b) (((a)<(b))?(a):(b))
 // #define	MAX(a,b) (((a)>(b))?(a):(b))
