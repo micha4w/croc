@@ -157,6 +157,38 @@ rtl/%_reg_top.sv: rtl/%_regs.hjson
 .PHONY: reggen
 
 
+#############
+# FPGA Flow #
+#############
+
+ROOT_DIR    := $(shell pwd)
+VIVADO_DIR  := $(ROOT_DIR)/vivado
+SCRIPTS_DIR := $(ROOT_DIR)/scripts_vivado
+
+PROJ_NAME := croc-sd-fpga
+
+VIVADO ?= vitis-2023.2 vivado
+
+.PHONY: vivado-flist
+vivado-flist: Bender.lock Bender.yml rtl/*/Bender.yml
+	$(BENDER) script vivado -t fpga > scripts_vivado/add_sources.tcl
+
+.PHONY: bitstream
+## Generate bitstream 
+bitstream:
+	cd $(VIVADO_DIR) && $(VIVADO) -mode tcl -source $(SCRIPTS_DIR)/flow.tcl
+
+.PHONY: open-vivado
+## Open Vivado
+open-vivado: $(VIVADO_DIR)/$(PROJ_NAME).xpr
+	cd $(VIVADO_DIR) && $(VIVADO) $(VIVADO_DIR)/$(PROJ_NAME).xpr
+
+.PHONY: clean-fpga
+## clean vivado files
+clean-fpga:
+	cd $(VIVADO_DIR) && rm -rf $(PROJ_NAME).* .Xil vivado.* vivado_* ips/clk_wiz_0
+
+
 #################
 # Documentation #
 #################
