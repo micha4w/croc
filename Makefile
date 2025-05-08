@@ -168,7 +168,7 @@ vivado-flist: Bender.lock Bender.yml rtl/*/Bender.yml
 
 .PHONY: bitstream
 ## Generate bitstream 
-bitstream:
+bitstream: vivado-flist
 	cd $(VIVADO_DIR) && $(VIVADO) -mode tcl -source $(SCRIPTS_DIR)/flow.tcl
 
 .PHONY: open-vivado
