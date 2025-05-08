@@ -1,4 +1,4 @@
-source ../scripts/common.tcl
+source ../scripts_vivado/common.tcl
 
 # Workaround needed until Zybo board is installed in /usr/pack
 # set_param board.repoPaths {/home/sem25f15/.Xilinx/Vivado/2023.2/xhub/board_store/xilinx_board_store}

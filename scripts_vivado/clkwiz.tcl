@@ -1,4 +1,4 @@
-source ../scripts/common.tcl
+source ../scripts_vivado/common.tcl
 
 
 # TODO: Add the clk_wiz_0.xci file here (Generated from the IP Catalog in Vivado)
@@ -21,5 +21,5 @@ generate_target all [get_files  ${clkwiz_dir}/clk_wiz_0/clk_wiz_0.xci]
 catch { config_ip_cache -export [get_ips -all clk_wiz_0] }
 export_ip_user_files -of_objects [get_files ${clkwiz_dir}/clk_wiz_0/clk_wiz_0.xci] -no_script -sync -force -quiet
 create_ip_run [get_files -of_objects [get_fileset sources_1] ${clkwiz_dir}/clk_wiz_0/clk_wiz_0.xci]
-launch_runs clk_wiz_0_synth_1 -jobs 8
+launch_runs clk_wiz_0_synth_1 -jobs ${numjobs}
 wait_on_run clk_wiz_0_synth_1
