@@ -104,6 +104,11 @@ sources:
       - xilinx/hw/croc_xilinx.sv
       - xilinx/hw/fan_ctrl.sv
 
+  - target: fpga
+    files:
+      #level 0
+      - rtl/croc_xilinx.sv
+
   - target: with_sd_model
     files:
       - rtl/user_domain/sdhci/model/sd_crc_7.v

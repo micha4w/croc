@@ -1,5 +1,5 @@
 # Define common variables
-source ../scripts/common.tcl
+source ../scripts_vivado/common.tcl
 
 # Create project
 source ${scripts_dir}/init.tcl
