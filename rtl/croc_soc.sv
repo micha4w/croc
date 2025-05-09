@@ -24,6 +24,17 @@ module croc_soc import croc_pkg::*; #(
   input  logic uart_rx_i,
   output logic uart_tx_o,
 
+  `ifndef WITH_SD_MODEL
+    output  logic sd_clk_o,
+
+    inout   logic sd_cmd_io,
+
+    inout logic sd_dat0_io,
+    inout logic sd_dat1_io,
+    inout logic sd_dat2_io,
+    inout logic sd_dat3_io,
+  `endif
+
   input  logic [GpioCount-1:0] gpio_i,       // Input from GPIO pins
   output logic [GpioCount-1:0] gpio_o,       // Output to GPIO pins
   output logic [GpioCount-1:0] gpio_out_en_o // Output enable signal; 0 -> input, 1 -> output
@@ -107,6 +118,15 @@ user_domain #(
 
   .user_mgr_obi_req_o ( user_mgr_obi_req ),
   .user_mgr_obi_rsp_i ( user_mgr_obi_rsp ),
+
+  `ifndef WITH_SD_MODEL
+    .sd_clk_o   (sd_clk_o),
+    .sd_cmd_io  (sd_cmd_io),
+    .sd_dat0_io (sd_dat0_io),
+    .sd_dat1_io (sd_dat1_io),
+    .sd_dat2_io (sd_dat2_io),
+    .sd_dat3_io (sd_dat3_io),
+  `endif
 
   .gpio_in_sync_i ( gpio_in_sync ),
   .interrupts_o   ( interrupts   )
