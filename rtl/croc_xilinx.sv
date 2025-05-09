@@ -13,7 +13,13 @@ module croc_xilinx #(
   output logic                 jtag_tdo_o,
   // input  logic                 jtag_trst_ni,
   output logic                 uart_tx_o,
-  input  logic                 uart_rx_i
+  input  logic                 uart_rx_i,
+  output logic                 sd_clk_o,
+  inout  logic                 sd_cmd_io,
+  inout  logic                 sd_dat0_io,
+  inout  logic                 sd_dat1_io,
+  inout  logic                 sd_dat2_io,
+  inout  logic                 sd_dat3_io
 );
 
   //////////////////////////////////
@@ -103,6 +109,12 @@ module croc_xilinx #(
     .jtag_trst_ni    ( '1           ),
     .uart_rx_i       ( uart_rx_i    ),
     .uart_tx_o       ( uart_tx_o    ),
+    .sd_clk_o        (sd_clk_o      ),
+    .sd_cmd_io       (sd_cmd_io     ),
+    .sd_dat0_io      (sd_dat0_io    ),
+    .sd_dat1_io      (sd_dat1_io    ),
+    .sd_dat2_io      (sd_dat2_io    ),
+    .sd_dat3_io      (sd_dat3_io    ),
     .gpio_i          ( gpio_in      ),
     .gpio_o          ( gpio_out     ),
     .gpio_out_en_o   ( gpio_out_en  ) 
