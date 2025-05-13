@@ -16,15 +16,15 @@ runs:
       run: |
         echo "UID=$(id -u)" >> $GITHUB_ENV
         echo "GID=$(id -g)" >> $GITHUB_ENV
-        IMAGE=$(docker compose config | awk '/image:/{print $2}' | head -n1)
+        IMAGE=$(docker compose config --images | head -n1)
         echo "IMAGE_NAME=$IMAGE" >> $GITHUB_ENV
 
     - name: Restore Docker image cache
       id: restore-cache
       uses: actions/cache@v4
       with:
-        path: /tmp/oseda.tar.gz
-        key: oseda-${{ env.IMAGE_NAME }}
+        path: oseda.tar.gz
+        key: oseda-${{ env.IMAGE_NAME }}-${{ hashFiles('docker-compose.yml') }}
 
     - name: Check disk usage
       shell: bash
@@ -33,16 +33,16 @@ runs:
     - name: Load cached Docker image
       shell: bash
       if: steps.restore-cache.outputs.cache-hit == 'true'
-      run: docker import /tmp/oseda.tar.gz
+      run: docker import oseda.tar.gz
 
     - name: Prepare Docker image for caching
       shell: bash
       if: steps.restore-cache.outputs.cache-hit != 'true'
       run: |
         docker system prune -af
-        docker compose pull
+        docker compose build
         df -h
-        docker save $IMAGE_NAME | pigz -9 -f > /tmp/oseda.tar.gz
+        docker save $IMAGE_NAME | pigz -9 -f > oseda.tar.gz
         df -h
 
     - name: Check disk usage
