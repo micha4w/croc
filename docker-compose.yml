@@ -10,7 +10,7 @@ services:
     build:
       dockerfile_inline: |
         FROM hpretl/iic-osic-tools:2025.03
-        RUN pip install --user hjson mistletoe mako
+        RUN pip install --user --break-system-packages hjson mistletoe mako
     environment:
       - UID=${UID}
       - GID=${GID}
