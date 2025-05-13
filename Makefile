@@ -35,6 +35,7 @@ IHP_RCX_FILE := $(PROJ_DIR)/openroad/IHP_rcx_patterns.rules
 ## Checkout/update dependencies using Bender
 checkout: $(IHP_RCX_FILE)
 	$(BENDER) checkout
+	make -C rtl/user_domain/sdhci deps
 	git submodule update --init --recursive
 
 $(IHP_RCX_FILE): 
@@ -153,10 +154,10 @@ klayout: klayout/croc_chip.gds
 #######################
 reggen: rtl/user_domain/sdhci/reg/sdhci_reg_pkg.sv
 
-rtl/%_reg_pkg.sv: rtl/%_regs.hjson
+rtl/user_domain/%_reg_pkg.sv: rtl/user_domain/%_regs.hjson
 	$(REGGEN) $< -r -t $(shell dirname $@)
 
-rtl/%_reg_top.sv: rtl/%_regs.hjson
+rtl/user_domain/%_reg_top.sv: rtl/user_domain/%_regs.hjson
 	$(REGGEN) $< -r -t $(shell dirname $@)
 
 .PHONY: reggen
