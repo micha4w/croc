@@ -3,3 +3,4 @@ tmp
 verilator/obj_dir/
 build/
 croc.flist
+.vscode
