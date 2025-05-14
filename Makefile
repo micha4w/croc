@@ -95,7 +95,7 @@ vsim-yosys: vsim/compile_netlist.tcl $(SW_HEX) yosys/out/croc_chip_yosys_debug.v
 VERILATOR_ARGS  = --binary -j 0 -Wno-fatal
 VERILATOR_ARGS += -Wno-style -Wno-WIDTHEXPAND
 VERILATOR_ARGS += --timing --autoflush --trace --trace-structs --trace-fst
-VERILATOR_ARGS +=  --unroll-count 1 --unroll-stmts 1
+VERILATOR_ARGS +=  --unroll-count 100 --unroll-stmts 1
 VERILATOR_ARGS +=  --assert
 
 verilator/croc.f: Bender.lock Bender.yml
