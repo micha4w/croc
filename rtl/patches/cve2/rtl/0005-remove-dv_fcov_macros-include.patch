@@ -14,7 +14,7 @@ index ab9970a6..987532b7 100644
 @@ -10,7 +10,6 @@
   */
  
- `include "lowrisc_prim/prim_assert.svh"
+ `include "common_cells/assertions.svh"
 -`include "dv_fcov_macros.svh"
  
  module cve2_wb #(

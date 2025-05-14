@@ -1,5 +1,5 @@
 # Set common variables 
-set root_dir    /scratch/bsc25f14/croc_sdio/croc
+set root_dir    [file normalize [pwd]/..]
 
 set numjobs     12  ;#set to number of cores
 

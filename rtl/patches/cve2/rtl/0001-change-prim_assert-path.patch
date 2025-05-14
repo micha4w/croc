@@ -30,7 +30,7 @@ index e49c7007..e9e8606a 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_branch_predict (
    input  logic clk_i,
@@ -43,7 +43,7 @@ index 1b5b17ff..842f5669 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_compressed_decoder (
    input  logic        clk_i,
@@ -56,7 +56,7 @@ index fba4352f..681ae3f9 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  `include "dv_fcov_macros.svh"
  
  module cve2_controller #(
@@ -69,7 +69,7 @@ index b0f3ad3d..1d18d5fe 100644
  `endif
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  /**
   * Top level module of the ibex RISC-V core
@@ -82,7 +82,7 @@ index 92ffa824..fa7ec5b1 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_cs_registers #(
    parameter bit               DbgTriggerEn      = 0,
@@ -95,7 +95,7 @@ index b464bcce..cf680253 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_csr #(
    parameter int unsigned    Width      = 32,
@@ -108,7 +108,7 @@ index 5b9cbca1..52b68a91 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_decoder #(
    parameter bit RV32E               = 0,
@@ -121,7 +121,7 @@ index 60933a03..cd431b90 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_fetch_fifo #(
    parameter int unsigned NUM_REQS = 2
@@ -134,7 +134,7 @@ index e7ebf52c..eef60fa2 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  `include "dv_fcov_macros.svh"
  
  module cve2_id_stage #(
@@ -147,7 +147,7 @@ index cbb05054..b16b604a 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_if_stage import cve2_pkg::*; #(
    parameter int unsigned DmHaltAddr        = 32'h1A110800,
@@ -160,7 +160,7 @@ index 3575fadf..98e3d5ed 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  `include "dv_fcov_macros.svh"
  
  module cve2_load_store_unit
@@ -173,7 +173,7 @@ index d1d400a3..1d691cff 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_multdiv_fast #(
    parameter cve2_pkg::rv32m_e RV32M = cve2_pkg::RV32MFast
@@ -186,7 +186,7 @@ index 70732cc6..8c1a9da5 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  module cve2_multdiv_slow
  (
@@ -199,7 +199,7 @@ index 34af60b7..6b1ee0dc 100644
  `endif
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  
  /**
   * Top level module of the ibex RISC-V core
@@ -237,7 +237,7 @@ index dee73f74..ab9970a6 100644
   */
  
 -`include "prim_assert.sv"
-+`include "lowrisc_prim/prim_assert.svh"
++`include "common_cells/assertions.svh"
  `include "dv_fcov_macros.svh"
  
  module cve2_wb #(
