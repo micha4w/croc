@@ -28,6 +28,8 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
     inout logic sd_dat1_io,
     inout logic sd_dat2_io,
     inout logic sd_dat3_io,
+
+    output logic start_tx_o, //for triggering
   `endif
 
   input  logic [      GpioCount-1:0] gpio_in_sync_i, // synchronized GPIO inputs
@@ -149,6 +151,7 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
         .sd_dat1_io (sd_dat1_io),
         .sd_dat2_io (sd_dat2_io),
         .sd_dat3_io (sd_dat3_io),
+        .start_tx_o (start_tx_o),
       `endif
       .interrupt_o(interrupts_o[0])
   );

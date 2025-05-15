@@ -25,6 +25,8 @@ module user_sdhci #(
     inout logic sd_dat1_io,
     inout logic sd_dat2_io,
     inout logic sd_dat3_io,
+
+    output logic start_tx_o,
   `endif
 
   output logic interrupt_o
@@ -198,6 +200,9 @@ module user_sdhci #(
     .hw2reg_error_interrupt_status_command_timeout_error_d  (hw2reg.error_interrupt_status.command_timeout_error.d),
     .hw2reg_error_interrupt_status_command_timeout_error_de (hw2reg.error_interrupt_status.command_timeout_error.de),
 
+    `ifndef WITH_SD_MODEL
+      .start_tx_o (start_tx_o),
+    `endif
     .auto_cmd12_errors_o     (hw2reg.auto_cmd12_error_status)
   );
 

@@ -19,7 +19,8 @@ module croc_xilinx #(
   inout  logic                 sd_dat0_io,
   inout  logic                 sd_dat1_io,
   inout  logic                 sd_dat2_io,
-  inout  logic                 sd_dat3_io
+  inout  logic                 sd_dat3_io,
+  output logic                 start_tx_o
 );
 
   //////////////////////////////////
@@ -115,6 +116,7 @@ module croc_xilinx #(
     .sd_dat1_io      (sd_dat1_io    ),
     .sd_dat2_io      (sd_dat2_io    ),
     .sd_dat3_io      (sd_dat3_io    ),
+    .start_tx_o      (start_tx_o    ),
     .gpio_i          ( gpio_in      ),
     .gpio_o          ( gpio_out     ),
     .gpio_out_en_o   ( gpio_out_en  ) 

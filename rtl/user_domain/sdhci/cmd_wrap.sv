@@ -43,6 +43,10 @@ module cmd_wrap (
   output  logic hw2reg_error_interrupt_status_command_timeout_error_d,
   output  logic hw2reg_error_interrupt_status_command_timeout_error_de,
 
+  `ifndef WITH_SD_MODEL
+    output logic start_tx_o,
+  `endif
+
   output  sdhci_reg_pkg::sdhci_hw2reg_auto_cmd12_error_status_reg_t auto_cmd12_errors_o
 );
   //cmd sequence state machine
@@ -383,6 +387,8 @@ module cmd_wrap (
     .overflow_o ()  //overflow not needed
   );
 
-
+  `ifndef WITH_SD_MODEL //for easier LA triggering
+    assign start_tx_o = start_tx_q;
+  `endif
   
 endmodule

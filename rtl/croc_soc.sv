@@ -33,6 +33,7 @@ module croc_soc import croc_pkg::*; #(
     inout logic sd_dat1_io,
     inout logic sd_dat2_io,
     inout logic sd_dat3_io,
+    output logic start_tx_o,
   `endif
 
   input  logic [GpioCount-1:0] gpio_i,       // Input from GPIO pins
@@ -126,6 +127,7 @@ user_domain #(
     .sd_dat1_io (sd_dat1_io),
     .sd_dat2_io (sd_dat2_io),
     .sd_dat3_io (sd_dat3_io),
+    .start_tx_o (start_tx_o),
   `endif
 
   .gpio_in_sync_i ( gpio_in_sync ),
