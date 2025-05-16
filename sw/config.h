@@ -13,6 +13,9 @@
 #define GPIO_BASE_ADDR    0x03005000
 #define TIMER_BASE_ADDR   0x0300A000
 
+// #define SDHC_INITIALIZED_MODEL
+// #define WITH_SD_MODEL
+
 #define SDHCI_BASE_ADDR            0x20000000
 #define SDHCI_TRANSFER_MODE                  0x00C
 #define SDHCI_COMMAND_OFFSET                 0x00E
