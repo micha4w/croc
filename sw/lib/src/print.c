@@ -4,8 +4,6 @@
 //
 // Philippe Sauter <phsauter@iis.ee.ethz.ch>
 
-#include <stdlib.h>
-
 #include "print.h"
 #include "util.h"
 #include "config.h"
@@ -25,12 +23,28 @@ void printf(const char *fmt, ...) {
             while ('0' <= *fmt && *fmt <= '9') fmt++;
 
             if (*fmt == 'd' || *fmt == 'u') { // decimal
-                unsigned int decimal = va_arg(args, unsigned int);
-                char out[12] = {0};
-                itoa(decimal, out, 10);
+                unsigned int decimal;
+                if (*fmt == 'd') {
+                    int signed_decimal = va_arg(args, int);
+                    if (signed_decimal < 0) {
+                        putchar('-');
+                        decimal = -signed_decimal;
+                    } else {
+                        decimal = signed_decimal;
+                    }
+                } else {
+                    decimal = va_arg(args, unsigned int);
+                }
 
-                char* str = out;
-                while(*str) {
+                char out[12] = {0};
+                char* str = &out[11];
+
+                if (decimal == 0) *--str = '0';
+                while (decimal > 0) {
+                    *--str = '0' + (decimal % 10);
+                    decimal /= 10;
+                }
+                while (*str) {
                     putchar(*str++);
                 }
 
@@ -57,7 +71,7 @@ void printf(const char *fmt, ...) {
                 putchar(chr);
             } else if (*fmt == 's') { // string
                 char *str = va_arg(args, char *);
-                while(*str) {
+                while (*str) {
                     putchar(*str++);
                 }
             }
