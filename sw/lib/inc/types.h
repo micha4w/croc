@@ -7,11 +7,16 @@
 #include "print.h"
 
 
-#define SDHC_DEBUG 1
-#define SDMMC_DEBUG 1
+#define SDHC_DEBUG
+#define SDMMC_DEBUG
 
+#ifdef SDHC_DEBUG
 extern int debug_funcs;
+extern int sdhcdebug;
 #define DFUNC(name) if (debug_funcs) { printf(#name"\n"); }
+#else
+#define DFUNC(name)
+#endif
 
 typedef unsigned char u_char;
 typedef unsigned short u_short;
@@ -22,14 +27,6 @@ typedef uint8_t  u_int8_t;
 typedef uint16_t u_int16_t;
 typedef uint32_t u_int32_t;
 typedef uint64_t u_int64_t;
-
-typedef	char* caddr_t;
-typedef	unsigned long paddr_t;
-typedef	unsigned long vaddr_t;
-
-typedef void* bus_dma_tag_t;
-typedef void* bus_dmamap_t;
-typedef u_long bus_size_t;
 
 #define EINVAL 1
 #define ETIMEDOUT 2
