@@ -8,14 +8,14 @@
 `define TRACE_WAVE
 
 module tb_croc_soc #(
-    parameter time         ClkPeriod     = 50ns,
-    parameter time         ClkPeriodJtag = 50ns,
+    parameter time         ClkPeriod     = 40ns,
+    parameter time         ClkPeriodJtag = 40ns,
     parameter time         ClkPeriodRef  = 30518ns,
     parameter time         TAppl         = 0.2*ClkPeriod,
     parameter time         TTest         = 0.8*ClkPeriod,
     parameter int unsigned RstCycles     = 1,
     // UART
-    parameter int unsigned  UartBaudRate      = 115200,
+    parameter int unsigned  UartBaudRate      = 57600,
     parameter int unsigned  UartParityEna     = 0,
 
     localparam int unsigned ClkFrequency = 1s / ClkPeriod
