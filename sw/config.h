@@ -27,8 +27,8 @@
 #define SDHCI_NORMAL_INTERRUPT_SIGNAL_ENABLE 0x038
 
 // Frequencies
-#define TB_FREQUENCY 20000000
-#define TB_BAUDRATE    115200
+#define TB_FREQUENCY 25000000
+#define TB_BAUDRATE    57600
 
 // Peripheral configs
 // UART
