@@ -624,6 +624,13 @@ sdmmc_mem_sd_init(struct sdmmc_softc *sc, struct sdmmc_function *sf)
 		return error;
 	}
 
+	DPRINTF(("%s: change bus width\n", DEVNAME(sc)));
+	error = sdmmc_mem_set_bus_width(sf, 4);
+	if (error) {
+		DPRINTF(("%s: can't change bus width\n", DEVNAME(sc)));
+		return error;
+	}
+
 	uint32_t* raw_scr = (uint32_t*) sc->scratch_buffer;
 	error = sdmmc_mem_send_scr(sc, raw_scr);
 	if (error) {
@@ -634,15 +641,6 @@ sdmmc_mem_sd_init(struct sdmmc_softc *sc, struct sdmmc_function *sf)
 	if (error)
 		return error;
 
-	if (ISSET(sc->sc_caps, SMC_CAPS_4BIT_MODE) &&
-	    ISSET(sf->scr.bus_width, SCR_SD_BUS_WIDTHS_4BIT)) {
-		DPRINTF(("%s: change bus width\n", DEVNAME(sc)));
-		error = sdmmc_mem_set_bus_width(sf, 4);
-		if (error) {
-			DPRINTF(("%s: can't change bus width\n", DEVNAME(sc)));
-			return error;
-		}
-	}
 
 	sdmmc_bitfield512_t* status = (sdmmc_bitfield512_t*) sc->scratch_buffer;
 	best_func = 0;
