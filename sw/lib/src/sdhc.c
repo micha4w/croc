@@ -755,6 +755,7 @@ sdhc_read_data(struct sdhc_host *hp, u_char *datap, int datalen)
 		*(u_int32_t *)datap = HREAD4(hp, SDHC_DATA);
 		datap += 4;
 		datalen -= 4;
+		printf("Anton: Read data: %x\n",*datap);
 	}
 	if (datalen > 0) {
 		u_int32_t rv = HREAD4(hp, SDHC_DATA);

@@ -637,6 +637,7 @@ sdmmc_mem_sd_init(struct sdmmc_softc *sc, struct sdmmc_function *sf)
 		DPRINTF(("%s: SD_SEND_SCR send failed\n", DEVNAME(sc)));
 		return error;
 	}
+	printf("SCR: %x\n", *raw_scr);
 	error = sdmmc_mem_decode_scr(sc, raw_scr, sf);
 	if (error)
 		return error;
