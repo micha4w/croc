@@ -12,6 +12,7 @@ module dat_read #(
 
   input  logic                       start_i,
   input  logic [MaxBlockBitSize-1:0] block_size_i, // In bytes
+  input  logic                       wide_bus_i, //4 or 1 bit bus
 
   output logic        data_valid_o,
   output logic [31:0] data_o,

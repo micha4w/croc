@@ -13,6 +13,7 @@ module dat_write #(
 
   input  logic                       start_i,
   input  logic [MaxBlockBitSize-1:0] block_size_i, // In bytes
+  input  logic                       wide_bus_i,
 
   input  logic [31:0] data_i,
   output logic        next_word_o, //active for one cycle when next data word should be made available. Got time for 7 sd clock cycles after to provide data

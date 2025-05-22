@@ -158,6 +158,10 @@ module dat_wrap #(
   `FF (read_reg_start_length_q, read_reg_start_length_d, '0, clk_i, rst_ni)
 
   logic read_run_timeout, pop_write_buffer;
+
+  logic wide_bus_d, wide_bus_q; //bus width: 1 for 4-bit, 0 for 1-bit
+  `FF(wide_bus_q, wide_bus_d, '0, clk_i, rst_ni);
+
   always_comb begin
     sd_rst_n = rst_ni & ~software_reset_dat;
 
@@ -191,9 +195,13 @@ module dat_wrap #(
     buffer_write_enable_o = '{ de: '1, d: '0 };
     buffer_read_enable_o  = '{ de: '1, d: '0 };
 
+    wide_bus_d = wide_bus_q;
+
     unique case (state_q)
       READY: begin
         first_block_d = '1;
+
+        wide_bus_d = reg2hw_i.host_control.data_transfer_width.q; //only allow change of width in ready state to avoid read/write errors
 
         start_d = '0;
       end
@@ -400,6 +408,7 @@ module dat_wrap #(
 
     .start_i       (sd_start_read),
     .block_size_i  (start_q.block_size),
+    .wide_bus_i    (wide_bus_q),
     
     .data_valid_o  (sd_read_valid),
     .data_o        (sd_read_data),
@@ -420,6 +429,7 @@ module dat_wrap #(
 
     .start_i       (sd_start_write),
     .block_size_i  (start_q.block_size),
+    .wide_bus_i    (wide_bus_q),
 
     // Not using sd_write_valid signal here because the data has to always arrive on time
     .data_i        (write_data),
