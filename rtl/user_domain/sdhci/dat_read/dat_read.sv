@@ -37,14 +37,18 @@ module dat_read #(
   logic [CounterWidth-1:0] counter_q, counter_d;
   `FF (counter_q, counter_d, 0, sd_clk_i, rst_ni);
 
+  logic dat_cond, crc_cond, end_bit_cond;
+  assign dat_cond     = (wide_bus_i)  ? (dat_i == 4'b0) : (dat_i[0] == 1'b0);
+  assign crc_cond     = (wide_bus_i)  ? (counter_q == 2*block_size_i - 1) : (counter_q == 8*block_size_i -1);
+  assign end_bit_cond = (wide_bus_i)  ? (counter_q == 2*block_size_i + 16 - 1)  : (counter_q == 8*block_size_i + 16 - 1);
   always_comb begin
     state_d = state_q;
 
     unique case (state_q)
       IDLE:    if (start_i) state_d = READY;
-      READY:   if (dat_i == 4'b0) state_d = DAT;
-      DAT:     if (counter_q == 2*block_size_i - 1) state_d = CRC;
-      CRC:     if (counter_q == 2*block_size_i + 16 - 1) state_d = END_BIT;
+      READY:   if (dat_cond) state_d = DAT;
+      DAT:     if (crc_cond) state_d = CRC;
+      CRC:     if (end_bit_cond) state_d = END_BIT;
       END_BIT: state_d = IDLE;
       default: state_d = IDLE;
     endcase
@@ -66,61 +70,112 @@ module dat_read #(
     crc_err_o     = 'X;
     end_bit_err_o = 'X;
 
-    unique case (state_q)
-      READY: begin
-        counter_d = '0;
-        clear_crc = '1;
-      end
-      DAT: begin
-        // TODO make this work with buswidth of 1 ??
-        counter_d = counter_q + 1;
+    if (wide_bus_i) begin : four_bit_bus
+      unique case (state_q)
+        READY: begin
+          counter_d = '0;
+          clear_crc = '1;
+        end
+        DAT: begin
+          // TODO make this work with buswidth of 1 ??
+          counter_d = counter_q + 1;
 
-        // Every 8 cycles (8 * 4lines = 32)
-        if (counter_q[2:0] == '1) begin
-          data_valid_o = '1;
-          data_o = { data_buildup_q[31:28], dat_i, data_buildup_q[23:0] };
-          data_buildup_d = '0;
-        end else begin
-          // dat 0: 4, 0
-          // dat 1: 5, 1
-          // dat 2: 6, 2
-          // dat 3: 7, 3
-          if (counter_q[0] == '0) begin
-            // Leave a few empty slots for the next 4 bits
-            data_buildup_d = { dat_i, 4'b0, data_buildup_q[31:8] };
+          // Every 8 cycles (8 * 4lines = 32)
+          if (counter_q[2:0] == '1) begin //what happens during first cycle? -Anton
+            data_valid_o = '1;
+            data_o = { data_buildup_q[31:28], dat_i, data_buildup_q[23:0] };
+            data_buildup_d = '0;
           end else begin
-            // Fill the empty slots
-            data_buildup_d[27:24] = dat_i;
+            // dat 0: 4, 0
+            // dat 1: 5, 1
+            // dat 2: 6, 2
+            // dat 3: 7, 3
+            if (counter_q[0] == '0) begin
+              // Leave a few empty slots for the next 4 bits
+              data_buildup_d = { dat_i, 4'b0, data_buildup_q[31:8] };
+            end else begin
+              // Fill the empty slots
+              data_buildup_d[27:24] = dat_i;
+            end
           end
         end
-      end
 
-      CRC: begin
-        counter_d = counter_q + 1;
+        CRC: begin
+          counter_d = counter_q + 1;
 
-        if (counter_q == 2*block_size_i && block_size_i[1:0] != 0) begin
-          data_valid_o = '1;
-          unique case (block_size_i[1:0])
-            2'd0: ;
-            2'd1: data_o = { 24'b0, data_buildup_q[31:24] };
-            2'd2: data_o = { 16'b0, data_buildup_q[31:16] };
-            2'd3: data_o = {  8'b0, data_buildup_q[31: 8] };
-          endcase
-          data_buildup_d = '0;
+          if (counter_q == 2*block_size_i && block_size_i[1:0] != 0) begin
+            data_valid_o = '1;
+            unique case (block_size_i[1:0])
+              2'd0: ;
+              2'd1: data_o = { 24'b0, data_buildup_q[31:24] };
+              2'd2: data_o = { 16'b0, data_buildup_q[31:16] };
+              2'd3: data_o = {  8'b0, data_buildup_q[31: 8] };
+            endcase
+            data_buildup_d = '0;
+          end
         end
-      end
-      END_BIT: begin
-        done_o = '1;
-        end_bit_err_o = dat_i != '1;
-        crc_err_o = crc_errors != '0;
-      end
-      default: ;
-    endcase
+        END_BIT: begin
+          done_o = '1;
+          end_bit_err_o = dat_i != '1;
+          crc_err_o = crc_errors != '0;
+        end
+        default: ;
+      endcase
+    end else begin :  one_bit_bus
+      unique case (state_q)
+        READY: begin
+          counter_d = '0;
+          clear_crc = '1;
+        end
+
+        DAT: begin
+          counter_d = counter_q + 1;
+
+          if (counter_q[4:0] == '1) begin
+            data_valid_o = '1;
+            data_o  = {data_buildup_q [31:25], dat_i[0], data_buildup_q[23:0]}; //might be wrong -Anton
+          end else begin
+            unique case (counter_q[2:0])
+              3'b000: data_buildup_d = {dat_i[0], 7'b0, data_buildup_q[31:8]};
+              3'b001: data_buildup_d = {data_buildup_q[31], dat_i[0], data_buildup_q[29:0]}; 
+              3'b010: data_buildup_d = {data_buildup_q[31:30], dat_i[0], data_buildup_q[28:0]};
+              3'b011: data_buildup_d = {data_buildup_q[31:29], dat_i[0], data_buildup_q[27:0]};
+              3'b100: data_buildup_d = {data_buildup_q[31:28], dat_i[0], data_buildup_q[26:0]};
+              3'b101: data_buildup_d = {data_buildup_q[31:27], dat_i[0], data_buildup_q[25:0]};
+              3'b110: data_buildup_d = {data_buildup_q[31:26], dat_i[0], data_buildup_q[24:0]};
+              3'b111: data_buildup_d = {data_buildup_q[31:25], dat_i[0], data_buildup_q[23:0]}; 
+            endcase
+            end
+        end
+
+        CRC: begin
+          counter_d = counter_q + 1;
+
+          if(counter_q == 8*block_size_i && block_size_i[1:0] != 0) begin
+            data_valid_o = '1;
+            unique case (block_size_i[1:0])
+              2'd0: ;
+              2'd1: data_o = { 24'b0, data_buildup_q[31:24] };
+              2'd2: data_o = { 16'b0, data_buildup_q[31:16] };
+              2'd3: data_o = {  8'b0, data_buildup_q[31: 8] };
+            endcase
+            data_buildup_d = '0;
+          end
+        end
+
+        END_BIT:  begin
+          done_o = '1;
+          end_bit_err_o = dat_i[0] != '1;
+          crc_err_o = crc_errors[0] != '0;
+        end
+        default:; 
+      endcase
+    end
   end
 
   for (genvar i=0; i<4 ; i++) begin
     logic [15:0] crc_val;
-    assign crc_errors[i] = crc_val != '0;
+    assign crc_errors[i] = crc_val != '0; //wrong? crc_val can be 0! -Anton
 
     crc16_read i_crc16_read (
       .sd_clk_i,
