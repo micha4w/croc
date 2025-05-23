@@ -16,6 +16,10 @@ synth_design -rtl -rtl_skip_mlo -name rtl_1
 launch_runs synth_1 -jobs ${numjobs}
 wait_on_run synth_1
 
+# Add the debug signals
+open_run synth_1
+insert_ilas [list i_clkwiz/inst/clk_out1]
+
 # Implement
 # set impl_strategy Flow_RuntimeOptimized
 launch_runs impl_1 -jobs ${numjobs}
