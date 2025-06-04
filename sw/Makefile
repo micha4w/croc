@@ -74,6 +74,6 @@ $(BINDIR)/%.hex: $(BINDIR)/%.elf
 
 clean:
 	rm -rf $(BINDIR)
-	rm -f *.o
+	@find . -type f \( -name '*.o' -o -name '*.a' -o -name '*.elf' -o -name '*.hex' -o -name '*.d' \) -exec rm -f {} +
 
 compile: $(BINDIR) $(ALL_TARGETS) $(LINK) 
