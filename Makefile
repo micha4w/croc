@@ -62,7 +62,11 @@ software: $(SW_HEX)
 
 sw: $(SW_HEX)
 
-.PHONY: software sw
+## Remove all software build files
+clean-sw: 
+	$(MAKE) -C sw/ clean
+
+.PHONY: software sw clean-sw
 
 ##################
 # RTL Simulation #
@@ -229,5 +233,6 @@ clean:
 	rm -f verilator/croc.vcd
 	$(MAKE) ys_clean
 	$(MAKE) or_clean
-
+	$(MAKE) clean-sw
+	$(MAKE) clean-fpga
 .PHONY: clean
