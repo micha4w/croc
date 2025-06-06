@@ -729,8 +729,8 @@ sdhc_transfer_data(struct sdhc_host *hp, struct sdmmc_command *cmd)
 		else
 			sdhc_write_data(hp, datap, i);
 
-		datap += i;
-		datalen -= i;
+		// datap += i;
+		// datalen -= i;
 	}
 
 	if (error == 0 && !sdhc_wait_intr(hp, SDHC_TRANSFER_COMPLETE,
@@ -837,7 +837,8 @@ sdhc_wait_intr(struct sdhc_host *hp, int mask, int secs)
 				HWRITE2(hp, SDHC_EINTR_STATUS, error);
 				hp->intr_status |= status;
 
-				DPRINTF(0, ("sdhc_wait_intr error: %x\n", error));
+				// Always print error, because the driver ignores it
+				printf("sdhc_wait_intr error: %x\n", error);
 				if (ISSET(error, SDHC_CMD_TIMEOUT_ERROR|
 				    SDHC_DATA_TIMEOUT_ERROR))
 					break;

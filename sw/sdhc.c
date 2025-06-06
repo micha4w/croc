@@ -1,10 +1,3 @@
-// Copyright (c) 2024 ETH Zurich and University of Bologna.
-// Licensed under the Apache License, Version 2.0, see LICENSE for details.
-// SPDX-License-Identifier: Apache-2.0/
-//
-// Authors:
-// - Philippe Sauter <phsauter@iis.ee.ethz.ch>
-
 #include "uart.h"
 #include "print.h"
 #include "timer.h"
@@ -28,26 +21,21 @@ unsigned int rand(void) {
 static u_char scratch[SIZE * BLOCKS] = { 0 };
 _Static_assert(sizeof(scratch) >= 512, "Scratch buffer needs to be atleast 512bytes");
 
-void test_rw(int size, unsigned int seed) {
-    printf("Running read write test with size %d\n", size);
+int test_rw(int size, unsigned int seed) {
+    printf("Running read write test with size %d and seed %x\n", size, seed);
 
     bzero((void*) scratch, size);
 
     // Reset Block
-    int err;
-    err = sdmmc_mem_write_block(&sc.sc_card, 0, scratch, size);
-    if (err) {
-        printf("sdmmc_mem_write_block errored: %x\n", err);
-        return;
-    }
+    int err = 0;
+    ASSERT_OK(sdmmc_mem_write_block(&sc.sc_card, 0, scratch, size));
 
-    s_Seed = seed;
-    for (size_t i = 0; i < size; ++i) scratch[i] = rand();
+    memset((void*) scratch, 0xFF, size);
 
-    err = sdmmc_mem_read_block(&sc.sc_card, 0, scratch, size);
+    ASSERT_OK(sdmmc_mem_read_block(&sc.sc_card, 0, scratch, size));
     if (err) {
         printf("sdmmc_mem_read_block errored: %x\n", err);
-        return;
+        return 1;
     }
 
     for (size_t i = 0; i < size; ++i) {
@@ -56,25 +44,20 @@ void test_rw(int size, unsigned int seed) {
             err = 1;
         }
     }
-    if (err) return;
+    if (err) return 1;
 
 
     s_Seed = seed;
-    for (size_t i = 0; i < size; ++i) scratch[i] = rand();
-
-    err = sdmmc_mem_write_block(&sc.sc_card, 0, scratch, size);
-    if (err) {
-        printf("sdmmc_mem_write_block errored: %x\n", err);
-        return;
+    for (size_t i = 0; i < size; ++i){
+        scratch[i] = rand();
+        // printf("writing scratch[%d] = %x\n", i, scratch[i]);
     }
 
-    bzero((void*) scratch, size);
+    ASSERT_OK(sdmmc_mem_write_block(&sc.sc_card, 0, scratch, size));
 
-    err = sdmmc_mem_read_block(&sc.sc_card, 0, scratch, size);
-    if (err) {
-        printf("sdmmc_mem_read_block errored: %x\n", err);
-        return;
-    }
+    memset((void*) scratch, 0xFF, size);
+
+    ASSERT_OK(sdmmc_mem_read_block(&sc.sc_card, 0, scratch, size));
 
     s_Seed = seed;
     for (size_t i = 0; i < size; ++i) {
@@ -84,13 +67,18 @@ void test_rw(int size, unsigned int seed) {
             err = 1;
         }
     }
-    if (err) return;
+    if (err) return 1;
 
     printf("Succesfuly ran read write test\n");
+
+    return 0;
 }
 
 int main() {
     uart_init(); // setup the uart peripheral
+    
+    printf("Hello world!\n");
+
 
 #ifdef SDHC_DEBUG
     debug_funcs = 1;
@@ -109,6 +97,9 @@ int main() {
 
     // sleep_ms(10);
     // return 1;
+
+    err = sdhc_bus_width(&hp, 1);
+    if (err) printf("sdhc_bus_width errored: %x\n", err);
 
 #ifdef WITH_SD_MODEL
     err = sdhc_bus_width(&hp, 4);
@@ -129,17 +120,51 @@ int main() {
     if (err) printf("sdhc_bus_clock errored: %x\n", err);
 #else
     sdmmc_init(&sc, &hp, scratch);
+    if (!ISSET(sc.sc_flags, SMF_CARD_ATTACHED)) {
+        printf("Failed to initialize SD Card\n");
+        return 1;
+    }
 #endif
 
+    // ASSERT_OK(sdhc_bus_clock(sc.sch, SDMMC_SDCLK_25MHZ / 2, SDMMC_TIMING_LEGACY));
+
     sc.sc_card.csd.sector_size = SIZE;
-    err = sdmmc_mem_set_blocklen(&sc, &sc.sc_card);
-    if (err) printf("sdmmc_mem_set_blocklen errored: %x\n", err);
+    ASSERT_OK(sdmmc_mem_set_blocklen(&sc, &sc.sc_card));
 
 
     // Single block RW
-    test_rw(SIZE, 0xDEADBEEF);
+    ASSERT_OK(test_rw(SIZE, 0xDEADBEEF));
+
     // Multiple block RW
-    test_rw(BLOCKS*SIZE, 0x70EDADA1);
+    ASSERT_OK(test_rw(BLOCKS*SIZE, 0x70EDADA1));
+
+    // Check whether the correct blocks are written
+    bzero((void*) scratch, sizeof(scratch));
+
+    uint32_t* scratch32 = (uint32_t*) scratch;
+    for (uint32_t i = 0; i < SIZE * BLOCKS / 4; ++i){
+        scratch32[i] = i;
+    }
+
+    printf("Running Different Block Write Test\n");
+    const int START_BLOCK = 543;
+    ASSERT_OK(sdmmc_mem_write_block(&sc.sc_card, START_BLOCK, scratch, BLOCKS * SIZE));
+
+    memset((void*) scratch, 0xFF, sizeof(scratch));
+
+    ASSERT_OK(sdmmc_mem_read_block(&sc.sc_card, START_BLOCK + BLOCKS - 1, scratch, SIZE));
+
+    for (uint32_t i = 0; i < SIZE / 4; ++i) {
+        uint32_t exp = i + SIZE * (BLOCKS - 1) / 4;
+        if (scratch32[i] != exp) {
+            printf("scratch32[%d] not as expected, should be %x, got %x\n", i, exp, scratch32[i]);
+            err = 1;
+        }
+    }
+    if (err) return 1;
+    printf("Successfuly ran high block write test\n");
+    // You can verify the data is written correctly by plugging it into a pc and running `od -t x4 -j $((543 * 512)) -N 2560 /dev/mmcblk0`
+
     // TODO half block rw?
 
     printf("\n");
