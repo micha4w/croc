@@ -730,7 +730,7 @@ sdhc_transfer_data(struct sdhc_host *hp, struct sdmmc_command *cmd)
 			sdhc_write_data(hp, datap, i);
 
 		// datap += i;
-		// datalen -= i;
+		datalen -= i;
 	}
 
 	if (error == 0 && !sdhc_wait_intr(hp, SDHC_TRANSFER_COMPLETE,
