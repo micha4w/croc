@@ -80,6 +80,7 @@ sources:
       - rtl/user_domain/sdhci/dat_read/dat_read_timeout.sv
 
       - rtl/user_domain/sdhci/dat_wrap.sv
+      - rtl/user_domain/sdhci/dat_buffer.sv
 
     include_dirs:
       - rtl/user_domain/sdhci
