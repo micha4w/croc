@@ -27,11 +27,13 @@ static u_char scratch[SIZE] = { 0 };
 
 int main() {
     uart_init(); // setup the uart peripheral
+    printf("Hello World!\n");
     uint32_t start, end;
 
     start = mcycle();
     ASSERT_OK(sdhc_init(&hp, SDHCI_BASE_ADDR, 0, 0));
-
+    int err = sdhc_bus_width(&hp, 4);
+    if (err) printf("sdhc_bus_width errored: %x\n", err);
     sdmmc_init(&sc, &hp, scratch);
     end = mcycle();
 

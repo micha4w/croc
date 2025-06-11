@@ -464,11 +464,11 @@ sdhc_wait_state(struct sdhc_host *hp, u_int32_t mask, u_int32_t value)
 	u_int32_t state;
 	int timeout;
 
-	for (timeout = 10; timeout > 0; timeout--) {
+	for (timeout = 1000000; timeout > 0; timeout--) {
 		if (((state = HREAD4(hp, SDHC_PRESENT_STATE)) & mask)
 		    == value)
 			return 0;
-		sdmmc_delay(10000);
+		//sdmmc_delay(10000);
 	}
 	DPRINTF(3,("%s: timeout waiting for %x (state=%b)\n", DEVNAME(hp->sc),
 	    value, state, SDHC_PRESENT_STATE_BITS));
@@ -859,7 +859,7 @@ sdhc_wait_intr(struct sdhc_host *hp, int mask, int secs)
 		}
 
 		// asm volatile ("nop\n nop\n nop\n nop\n nop\n");
-		sdmmc_delay(1000);
+		//sdmmc_delay(1000);
 		if (usecs-- == 0) {
 			status |= SDHC_ERROR_INTERRUPT;
 			DPRINTF(0, ("sdhc_wait_intr timeoud out\n"));

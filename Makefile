@@ -52,7 +52,7 @@ clean-deps:
 ############
 # Software #
 ############
-SW_HEX := sw/bin/sdhc.hex
+SW_HEX := sw/bin/bandwith.hex
 
 $(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld sw/lib/src/*.c sw/lib/inc/*.h
 	$(MAKE) -C sw/ compile
