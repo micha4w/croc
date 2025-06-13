@@ -35,3 +35,5 @@
 #define UART_BYTE_ALIGN 4
 #define UART_FREQ       TB_FREQUENCY
 #define UART_BAUD       TB_BAUDRATE
+
+#define ASSERT_OK(call) { int err = (call); if (err != 0) { printf(#call " errored with err=%x\n", err); return err; } }
