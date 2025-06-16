@@ -135,7 +135,8 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   user_sdhci #(
       .ObiCfg     (SbrObiCfg),
       .obi_req_t  (sbr_obi_req_t),
-      .obi_rsp_t  (sbr_obi_rsp_t)
+      .obi_rsp_t  (sbr_obi_rsp_t),
+      .ClkPreDivLog (1)
   ) i_user_sdhci (
       .clk_i,
       .rst_ni,
