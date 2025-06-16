@@ -19,10 +19,11 @@ module sd_clk_generator #(
 
   output `writable_reg_t() sd_clk_stable_o
 );
+  localparam int unsigned MsbConsidered = (ClkPreDivLog != 0) ? (ClkPreDivLog - 1) : 0;
   //check if all bits from [ClkPreDivLog-1:0] are one
   function logic lsbones(input logic[ClkPreDivLog+7:0] div);
     if(ClkPreDivLog == 0) return '1;
-    else return (div[ClkPreDivLog-1:0] == '1);
+    else return (div[MsbConsidered:0] == '1);
   endfunction
 
   logic[7:0] div_d, div_q;
@@ -53,7 +54,7 @@ module sd_clk_generator #(
     unique case (div_q)
       8'h00:  begin
         if (ClkPreDivLog != 0) begin 
-          clk_div_d  = cnt_q[ClkPreDivLog-1];
+          clk_div_d  = cnt_q[MsbConsidered];
           clk_en_p_d = lsbones(cnt_q ^ bitmask);
           clk_en_n_d = lsbones(cnt_q);
         end
