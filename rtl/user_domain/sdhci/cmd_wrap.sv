@@ -9,14 +9,14 @@ module cmd_wrap (
   input   logic clk_en_n_i, //high before next sd_clk negedge
   input   logic div_1_i,
 
-  input   logic sd_bus_cmd_i,
+  (* mark_debug = "true" *) input   logic sd_bus_cmd_i,
   output  logic sd_bus_cmd_o,
-  output  logic sd_bus_cmd_en_o,
+  (* mark_debug = "true" *) output  logic sd_bus_cmd_en_o,
 
   input   sdhci_reg2hw_t reg2hw,
 
-  input   logic dat0_i,    //busy signal on dat0 line
-  input   logic request_cmd12_i,
+  (* mark_debug = "true" *) input   logic dat0_i,    //busy signal on dat0 line
+  (* mark_debug = "true" *) input   logic request_cmd12_i,
 
   output  logic sd_cmd_done_o,
   output  logic sd_rsp_done_o,
@@ -52,7 +52,7 @@ module cmd_wrap (
     RSP_RECEIVED //wait for N_RC=8 clock cylces before allowing next command
   } cmd_seq_state_e;
   
-  logic [5:0] cnt;
+  (* mark_debug = "true" *) logic [5:0] cnt;
   logic cnt_en, cnt_clr;  //for N_rc
   
   //high if transmission should start next sd_clk posedge
@@ -64,12 +64,12 @@ module cmd_wrap (
   `FFL(running_cmd12_q, running_cmd12_d, clk_en_p_i, '0, clk_i, rst_ni);
 
   //high if we are in READ_RSP_BUSY and received rsp_valid
-  logic wait_for_busy_q, wait_for_busy_d;
+  (* mark_debug = "true" *) logic wait_for_busy_q, wait_for_busy_d;
   `FFL(wait_for_busy_q, wait_for_busy_d, clk_en_p_i, '0, clk_i, rst_ni);
 
   logic rsp_valid, tx_done;
 
-  cmd_seq_state_e cmd_seq_state_d, cmd_seq_state_q;
+  (* mark_debug = "true" *) cmd_seq_state_e cmd_seq_state_d, cmd_seq_state_q;
       
   
   always_comb begin : cmd_sequence_next_state
@@ -382,7 +382,7 @@ module cmd_wrap (
     
     .cmd_o          (sd_bus_cmd_o),
     .cmd_en_o       (sd_bus_cmd_en_o),
-    .start_tx_i     (start_tx_q), //need to buffer when registers run faster than sd cmd_write
+    .start_tx_i     (start_tx_q), //need to buffer when registers run faster than cmd_write
     .cmd_argument_i (running_cmd12_q ? '0 : reg2hw.argument.q),
     .cmd_nr_i       (command_index),
     .cmd_phase_i    (cmd_phase_q),
