@@ -116,7 +116,6 @@ sources:
       - rtl/user_domain/sdhci/model/sd_crc_16.v
       - rtl/user_domain/sdhci/model/sdModel.v
     defines:
-      WITH_SD_MODEL: ~
       # SD_MODEL_INITIALIZED: ~
 
 vendor_package:

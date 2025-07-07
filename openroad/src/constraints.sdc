@@ -123,3 +123,24 @@ set_input_delay  -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_po
 set_input_delay  -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports uart_rx_i]
 set_output_delay -min -add_delay -clock clk_sys [ expr $TCK_SYS * 0.10 ] [get_ports uart_tx_o]
 set_output_delay -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_ports uart_tx_o]
+
+##########
+## SDIO ##
+##########
+puts "SDIO..."
+
+set sd_ports [get_ports {sd_cmd_io sd_dat0_io sd_dat1_io sd_dat2_io sd_dat3_io}]
+create_generated_clock  -name SD_CLK \
+                        -source [get_ports clk_i] \
+                        -divide_by 1 \
+                        [get_ports sd_clk_o]
+
+set_input_delay -clock [get_clocks SD_CLK] -max -5.0 $sd_ports
+set_input_delay -clock [get_clocks SD_CLK] -min  5.0 $sd_ports
+
+set_output_delay -clock [get_clocks SD_CLK] -max -3.0 $sd_ports
+set_output_delay -clock [get_clocks SD_CLK] -min  3.0 $sd_ports
+
+# TODO
+# set_output_delay -clock clk_sys -max -3.0 [get_ports sd_clk_o]
+# set_output_delay -clock clk_sys -min  3.0 [get_ports sd_clk_o]

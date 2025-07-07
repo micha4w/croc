@@ -8,8 +8,8 @@
 `define TRACE_WAVE
 
 module tb_croc_soc #(
-    parameter time         ClkPeriod     = 40ns,
-    parameter time         ClkPeriodJtag = 40ns,
+    parameter time         ClkPeriod     = 12.5ns,
+    parameter time         ClkPeriodJtag = 12.5ns,
     parameter time         ClkPeriodRef  = 30518ns,
     parameter time         TAppl         = 0.2*ClkPeriod,
     parameter time         TTest         = 0.8*ClkPeriod,
@@ -36,10 +36,10 @@ module tb_croc_soc #(
     logic fetch_en_i;
     logic status_o;
 
-    localparam int unsigned GpioCount = 32;
+    localparam int unsigned GpioCount = 30;
 
-    logic [GpioCount-1:0] gpio_i;             
-    logic [GpioCount-1:0] gpio_o;            
+    logic [GpioCount-1:0] gpio_i;
+    logic [GpioCount-1:0] gpio_o;
     logic [GpioCount-1:0] gpio_out_en_o;
 
     // Register addresses
@@ -395,18 +395,37 @@ module tb_croc_soc #(
         end
     end
 
+    logic sd_clk_o;
 
+    logic sd_cmd_i;
+    logic sd_cmd_o;
+    logic sd_cmd_en_o;
+
+    logic [3:0] sd_dat_i;
+    logic [3:0] sd_dat_o;
+    logic       sd_dat_en_o;
+
+    sd_card i_sd_card(
+      .sd_clk_i (sd_clk_o),
+      .cmd_en_i (sd_cmd_en_o),
+      .cmd_i    (sd_cmd_o),
+      .cmd_o    (sd_cmd_i),
+      .dat_en_i (sd_dat_en_o),
+      .dat_i    (sd_dat_o),
+      .dat_o    (sd_dat_i)
+    );
 
     ////////////
     //  DUT   //
     ////////////
     `ifdef TARGET_NETLIST_YOSYS
-        \croc_soc$croc_chip.i_croc_soc i_croc_soc (
+        \croc_soc$croc_chip.i_croc_soc
     `else
-        croc_soc #(
+        croc_soc
+    `endif
+        #(
             .GpioCount ( GpioCount  )
         ) i_croc_soc (
-    `endif
         .clk_i         ( clk        ),
         .rst_ni        ( rst_n      ),
         .ref_clk_i     ( ref_clk    ),
@@ -423,8 +442,18 @@ module tb_croc_soc #(
         .uart_rx_i     ( uart_rx_i ),
         .uart_tx_o     ( uart_tx_o ),
 
-        .gpio_i        ( gpio_i        ),             
-        .gpio_o        ( gpio_o        ),            
+        .sd_clk_o,
+
+        .sd_cmd_i,
+        .sd_cmd_o,
+        .sd_cmd_en_o,
+
+        .sd_dat_i,
+        .sd_dat_o,
+        .sd_dat_en_o,
+
+        .gpio_i        ( gpio_i        ),
+        .gpio_o        ( gpio_o        ),
         .gpio_out_en_o ( gpio_out_en_o )
     );
 

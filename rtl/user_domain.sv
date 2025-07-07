@@ -19,22 +19,21 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
   output mgr_obi_req_t user_mgr_obi_req_o, // User Mgr (req_o), Croc Sbr (rsp_i)
   input  mgr_obi_rsp_t user_mgr_obi_rsp_i,
 
-  `ifndef WITH_SD_MODEL
-    output  logic sd_clk_o,
+  output  logic sd_clk_o,
 
-    inout   logic sd_cmd_io,
+  input  logic sd_cmd_i,
+  output logic sd_cmd_o,
+  output logic sd_cmd_en_o,
 
-    inout logic sd_dat0_io,
-    inout logic sd_dat1_io,
-    inout logic sd_dat2_io,
-    inout logic sd_dat3_io,
-  `endif
+  input  logic [3:0] sd_dat_i,
+  output logic [3:0] sd_dat_o,
+  output logic       sd_dat_en_o,
 
   input  logic [      GpioCount-1:0] gpio_in_sync_i, // synchronized GPIO inputs
   output logic [NumExternalIrqs-1:0] interrupts_o // interrupts to core
 );
 
-  assign interrupts_o[NumExternalIrqs-1:1] = '0;  
+  assign interrupts_o[NumExternalIrqs-1:1] = '0;
 
 
   //////////////////////
@@ -143,14 +142,16 @@ module user_domain import user_pkg::*; import croc_pkg::*; #(
 
       .obi_req_i (user_sdhci_obi_req),
       .obi_rsp_o (user_sdhci_obi_rsp),
-      `ifndef WITH_SD_MODEL
-        .sd_clk_o   (sd_clk_o),
-        .sd_cmd_io  (sd_cmd_io),
-        .sd_dat0_io (sd_dat0_io),
-        .sd_dat1_io (sd_dat1_io),
-        .sd_dat2_io (sd_dat2_io),
-        .sd_dat3_io (sd_dat3_io),
-      `endif
+      .sd_clk_o,
+
+      .sd_cmd_i,
+      .sd_cmd_o,
+      .sd_cmd_en_o,
+
+      .sd_dat_i,
+      .sd_dat_o,
+      .sd_dat_en_o,
+
       .interrupt_o(interrupts_o[0])
   );
 endmodule
