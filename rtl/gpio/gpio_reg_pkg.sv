@@ -48,14 +48,14 @@ package gpio_reg_pkg;
   // Register address offsets from GPIO base address
   // Spacing between registers left to allow for future implementation
   // of multiple GPIO banks (enabling more than 32 GPIOs)
-  parameter logic [AddressWidth-1:0] GPIO_DIR_OFFSET           = 11'h0;
-  parameter logic [AddressWidth-1:0] GPIO_EN_OFFSET            = 11'h80;
-  parameter logic [AddressWidth-1:0] GPIO_IN_OFFSET            = 11'h100;
-  parameter logic [AddressWidth-1:0] GPIO_OUT_OFFSET           = 11'h180;
-  parameter logic [AddressWidth-1:0] GPIO_TOGGLE_OFFSET        = 11'h200;
-  parameter logic [AddressWidth-1:0] GPIO_INTRPT_EN_OFFSET     = 11'h280;
-  parameter logic [AddressWidth-1:0] GPIO_INTRPT_STATUS_OFFSET = 11'h300;
-  parameter logic [AddressWidth-1:0] GPIO_INTRPT_EDGE_OFFSET   = 11'h380;
+  parameter logic [AddressWidth-1:0] GPIO_DIR_OFFSET           = 12'h0;
+  parameter logic [AddressWidth-1:0] GPIO_EN_OFFSET            = 12'h80;
+  parameter logic [AddressWidth-1:0] GPIO_IN_OFFSET            = 12'h100;
+  parameter logic [AddressWidth-1:0] GPIO_OUT_OFFSET           = 12'h180;
+  parameter logic [AddressWidth-1:0] GPIO_TOGGLE_OFFSET        = 12'h200;
+  parameter logic [AddressWidth-1:0] GPIO_INTRPT_EN_OFFSET     = 12'h280;
+  parameter logic [AddressWidth-1:0] GPIO_INTRPT_STATUS_OFFSET = 12'h300;
+  parameter logic [AddressWidth-1:0] GPIO_INTRPT_EDGE_OFFSET   = 12'h380;
   // Next feature uses address h380
 
 endpackage

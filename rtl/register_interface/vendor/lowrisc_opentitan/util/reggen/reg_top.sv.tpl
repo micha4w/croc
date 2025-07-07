@@ -480,7 +480,7 @@ ${we_gen(f, r.name.lower() + "_" + f.name.lower(), r.hwext, r.shadowed, i)}\
   // Read data return
   always_comb begin
     reg_rdata_next = '0;
-    unique case (1'b1)
+    case (1'b1)
       % for i, r in enumerate(regs_flat):
         % if len(r.fields) == 1:
       addr_hit[${i}]: begin
