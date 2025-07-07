@@ -1,16 +1,15 @@
 [*]
 [*] GTKWave Analyzer v3.4.0 (w)1999-2022 BSI
-[*] Wed Apr  9 18:47:09 2025
+[*] Mon Jul  7 12:28:22 2025
 [*]
 [dumpfile] "/fosic/designs/croc/verilator/croc.vcd"
-[dumpfile_mtime] "Wed Apr  9 18:31:53 2025"
-[dumpfile_size] 5276592142
-[optimize_vcd]
+[dumpfile_mtime] "Mon Jul  7 12:28:22 2025"
+[dumpfile_size] 89766884
 [savefile] "/fosic/designs/croc/verilator/sdhci_obi.gtkw"
 [timestart] 0
-[size] 3356 1418
+[size] 2476 1418
 [pos] -1 -1
-*-33.676105 104997000000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+*-34.102036 76600000 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 [markername] AA
 [markername] BB
 [markername] CC
@@ -41,28 +40,38 @@
 [treeopen] tb_croc_soc.i_croc_soc.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.
-[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.
-[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.i_cmd_shift_reg.
-[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.
-[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.i_dat_buffer.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.i_read.genblk1[1].
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.i_write.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.hw2reg.normal_interrupt_status.
-[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.reg2hw.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.reg2hw.normal_interrupt_status.
-[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.clock_control.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.normal_interrupt_status.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.normal_interrupt_status.command_complete.
 [treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.normal_interrupt_status.transfer_complete.
-[sst_width] 440
-[signals_width] 390
+[treeopen] tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.present_state.
+[treeopen] tb_croc_soc.i_sd_card.
+[sst_width] 350
+[signals_width] 342
 [sst_expanded] 1
-[sst_vpaned_height] 764
+[sst_vpaned_height] 765
 @200
 -Request (OBI)
 @22
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.addr[31:0]
 @28
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.aid[2:0]
-@22
+@c00022
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.be[3:0]
+@28
+(0)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.be[3:0]
+(1)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.be[3:0]
+(2)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.be[3:0]
+(3)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.be[3:0]
+@1401200
+-group_end
 @c00022
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_req_i.a.wdata[31:0]
 @28
@@ -151,6 +160,7 @@ tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.obi_rsp_o.rvalid
 @200
 -Register
 @c00022
+[color] 5
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.addr_hit[31:0]
 @28
 (0)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.addr_hit[31:0]
@@ -188,6 +198,7 @@ tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.addr_hit[31:0]
 @1401200
 -group_end
 @c00022
+[color] 5
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.reg_rdata[31:0]
 @28
 (0)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.reg_rdata[31:0]
@@ -225,127 +236,92 @@ tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.reg_rdata[31:0]
 @1401200
 -group_end
 @28
-+{nint_status_command_complete_qs} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_regs.i_regs.normal_interrupt_status_command_complete_qs
-@200
--SRAM
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.clock_control.internal_clock_enable} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.clock_control.internal_clock_enable.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.clock_control.sd_clock_enable} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.clock_control.sd_clock_enable.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.clock_control.internal_clock_stable} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.clock_control.internal_clock_stable.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.present_state.buffer_read_enable} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.present_state.buffer_read_enable.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.normal_interrupt_status.buffer_read_ready} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.normal_interrupt_status.buffer_read_ready.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.present_state.buffer_write_enable} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.present_state.buffer_write_enable.q
+@24
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.block_count} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.block_count.q[15:0]
 @28
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.sdhc_state_d[2:0]
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.tx_state_d[2:0]
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.tx_done_o
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.normal_interrupt_status.buffer_write_ready} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.normal_interrupt_status.buffer_write_ready.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.command_index_qe} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.command_index.qe
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.response_type_select} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.response_type_select.q[1:0]
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.command_index_check_enable} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.command_index_check_enable.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.command_crc_check_enable} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.command.command_crc_check_enable.q
+[color] 5
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.present_state.command_inhibit_cmd} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.reg2hw.present_state.command_inhibit_cmd.q
+[color] 5
 tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.clk_i
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.sd_cmd
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.shift_reg_out
-@c00022
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-@28
-(0)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(1)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(2)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(3)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(4)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(5)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(6)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(7)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(8)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(9)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(10)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(11)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(12)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(13)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(14)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(15)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(16)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(17)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(18)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(19)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(20)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(21)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(22)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(23)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(24)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(25)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(26)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(27)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(28)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(29)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(30)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(31)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(32)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(33)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(34)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(35)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(36)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(37)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(38)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-(39)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_bits_47_to_8[39:0]
-@1401200
--group_end
-@28
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.crc7_out
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.crc7_shift_en
 @200
 -SD
-@25
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_write.cmd_nr_i[5:0]
 @28
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.sd_clk_i
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.cmd
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.oeCmd
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.cmdOut
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.cmd_i
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.cmd_en_i
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.cmd_o
-@c00022
-tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
+[color] 6
+tb_croc_soc.i_sd_card.sd_clk_i
+[color] 6
+tb_croc_soc.i_sd_card.cmd
+@22
+[color] 6
+tb_croc_soc.i_sd_card.dat[3:0]
+@200
+-Command
 @28
-(0)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(1)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(2)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(3)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(4)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(5)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(6)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(7)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(8)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(9)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(10)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(11)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(12)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(13)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(14)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(15)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(16)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(17)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(18)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(19)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(20)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(21)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(22)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(23)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(24)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(25)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(26)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(27)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(28)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(29)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(30)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(31)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(32)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(33)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(34)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(35)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(36)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(37)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(38)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(39)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(40)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(41)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(42)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(43)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(44)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(45)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-(46)tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_sd_card.i_model.inCmd[46:0]
-@1401200
--group_end
+[color] 2
+tb_croc_soc.i_sd_card.cmd
+@100000028
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.cmd_seq_state_q[2:0]
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.i_cmd_write.tx_state_q[2:0]
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.i_rsp_read.rx_state_q[2:0]
+@22
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.command_index[5:0]
+@28
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.index_err
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.end_bit_err
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.crc_corr
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.request_cmd12_i
+[color] 2
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_cmd_wrap.running_cmd12_q
+@200
+-Data
+@22
+[color] 1
+tb_croc_soc.i_sd_card.dat[3:0]
+@100000028
+[color] 1
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.state_q[3:0]
+[color] 1
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.i_write.tx_state_q[3:0]} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.i_write.dat_tx_state_q[3:0]
+[color] 1
++{tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.i_read.rx_state_q[2:0]} tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.i_read.state_q[2:0]
+@28
+[color] 1
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.read_crc_err
+[color] 1
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.read_end_bit_err
+[color] 1
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.write_crc_err
+[color] 1
+tb_croc_soc.i_croc_soc.i_user.i_user_sdhci.i_dat_wrap.write_end_bit_err
 [pattern_trace] 1
 [pattern_trace] 0
