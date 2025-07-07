@@ -304,7 +304,7 @@ value = "{}'h {:x}".format(aw, r.offset)
   };
 
   // Register boudary crossing infromation to make sure we don't write to half of a field${for_iface}
-  parameter logic [3:0] ${upfx}_DISALLOWED_BOUNDARY_CROSSINGS [${len(rb.flat_regs)}] = '{
+  parameter logic [2:0] ${upfx}_DISALLOWED_BOUNDARY_CROSSINGS [${len(rb.flat_regs)}] = '{
   % for i, r in enumerate(rb.flat_regs):
 <%
   index_str = "{}".format(i).rjust(idx_len)
