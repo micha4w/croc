@@ -51,9 +51,9 @@ report_checks -format end -no_line_splits                >> ${report_dir}/${log_
 
 # Size of the chip
 set sealRingW    50
-set bodingPadsW  70
+set bondingPadW  70
 
-set chipH            [expr 2235.0 - 2*($sealRingW + $bondingPadsW)]
+set chipH            [expr 2235.0 - 2*($sealRingW + $bondingPadW)]
 set chipW            $chipH
 
 # thickness of annular ring for pads (length of a pad)
