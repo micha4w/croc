@@ -108,6 +108,9 @@ module cmd_wrap (
 
   logic end_bit_err, crc_corr, index_err;
 
+  logic rx_started_q, rx_started_d;
+  `FFL(rx_started_q, rx_started_d, clk_en_p_i, 0, clk_i, rst_ni);
+
   
   assign check_end_bit_err   = reg2hw.error_interrupt_status_enable.command_end_bit_error_status_enable.q;
   assign check_crc_err       = reg2hw.error_interrupt_status_enable.command_crc_error_status_enable.q & reg2hw.command.command_crc_check_enable.q;
@@ -137,6 +140,7 @@ module cmd_wrap (
     sd_cmd_done_o = 1'b0;
 
     wait_for_busy_d = 1'b0;
+    rx_started_d    = 1'b0;
 
     unique case (cmd_seq_state_q)
       READY:;
@@ -163,13 +167,15 @@ module cmd_wrap (
 
       READ_RSP_BUSY:  begin
         wait_for_busy_d = wait_for_busy_q;
+        rx_started_d    = (receiving) ? '1 : rx_started_q;
+
 
         //response should still start within 64 clock cycles, card may become busy during response
         cnt_en  = 1'b1;
-        cnt_clr = receiving;  //reset counter when we are receiving
+        cnt_clr = rx_started_q;  //stop counter when we are receiving
 
         
-        if  (cnt >= 62) begin
+        if  (cnt >= 63) begin
           //timeout interrupt if response didn't start within 64 clock cycles
 
           if (running_cmd12_q) auto_cmd12_errors_o.auto_cmd12_timeout_error.de = '1;
@@ -180,9 +186,9 @@ module cmd_wrap (
           wait_for_busy_d = 1'b1;
           
           if (running_cmd12_q) begin
-            auto_cmd12_errors_o.auto_cmd12_end_bit_error.de = end_bit_err;
-            auto_cmd12_errors_o.auto_cmd12_crc_error.de     = ~crc_corr;
-            auto_cmd12_errors_o.auto_cmd12_index_error.de   = index_err;
+            auto_cmd12_errors_o.auto_cmd12_end_bit_error.de = end_bit_err & clk_en_p_i;
+            auto_cmd12_errors_o.auto_cmd12_crc_error.de = ~crc_corr & clk_en_p_i;
+            auto_cmd12_errors_o.auto_cmd12_index_error.de = index_err & clk_en_p_i;
           end else begin
             command_end_bit_error_o.de = (check_end_bit_err & end_bit_err & clk_en_p_i);
             command_crc_error_o.de     = (check_crc_err & ~crc_corr & clk_en_p_i);
