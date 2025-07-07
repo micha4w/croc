@@ -33,3 +33,5 @@ set bank1_sram0 $SRAM$sram$SRAM_512x32
 
 set JTAG_ASYNC_REQ [get_nets $JTAG/i_dmi_cdc.i_cdc_req/*async_*]
 set JTAG_ASYNC_RSP [get_nets $JTAG/i_dmi_cdc.i_cdc_resp/*async_*]
+
+set sdhc_bank_sram [get_name [get_cells $USER/*i_user_sdhci*$SRAM_512x32]]

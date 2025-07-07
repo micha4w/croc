@@ -19,6 +19,13 @@ module croc_chip import croc_pkg::*; #() (
   input  wire uart_rx_i,
   output wire uart_tx_o,
 
+  output wire sd_clk_o,
+  inout  wire sd_cmd_io,
+  inout  wire sd_dat0_io,
+  inout  wire sd_dat1_io,
+  inout  wire sd_dat2_io,
+  inout  wire sd_dat3_io,
+
   input  wire fetch_en_i,
   output wire status_o,
 
@@ -51,13 +58,7 @@ module croc_chip import croc_pkg::*; #() (
   inout  wire gpio26_io,
   inout  wire gpio27_io,
   inout  wire gpio28_io,
-  inout  wire gpio29_io,
-  inout  wire gpio30_io,
-  inout  wire gpio31_io,
-  output wire unused0_o,
-  output wire unused1_o,
-  output wire unused2_o,
-  output wire unused3_o
+  inout  wire gpio29_io
 ); 
     logic soc_clk_i;
     logic soc_rst_ni;
@@ -73,10 +74,18 @@ module croc_chip import croc_pkg::*; #() (
     logic soc_fetch_en_i;
     logic soc_status_o;
 
-    localparam int unsigned GpioCount = 32;
+    logic       soc_sd_clk_o;
+    logic       soc_sd_cmd_i;
+    logic       soc_sd_cmd_o;
+    logic       soc_sd_cmd_en_o;
+    logic [3:0] soc_sd_dat_i;
+    logic [3:0] soc_sd_dat_o;
+    logic       soc_sd_dat_en_o;
 
-    logic [GpioCount-1:0] soc_gpio_i;             
-    logic [GpioCount-1:0] soc_gpio_o;            
+    localparam int unsigned GpioCount = 30;
+
+    logic [GpioCount-1:0] soc_gpio_i;
+    logic [GpioCount-1:0] soc_gpio_o;
     logic [GpioCount-1:0] soc_gpio_out_en_o; // Output enable signal; 0 -> input, 1 -> output
 
     sg13g2_IOPadIn        pad_clk_i        (.pad(clk_i),        .p2c(soc_clk_i));
@@ -95,6 +104,13 @@ module croc_chip import croc_pkg::*; #() (
 
     sg13g2_IOPadIn        pad_fetch_en_i   (.pad(fetch_en_i),   .p2c(soc_fetch_en_i));
     sg13g2_IOPadOut16mA   pad_status_o     (.pad(status_o),     .c2p(soc_status_o));
+
+    sg13g2_IOPadOut16mA   pad_sd_clk_o     (.pad(sd_clk_o),     .c2p(soc_sd_clk_o));
+    sg13g2_IOPadInOut30mA pad_sd_cmd_io    (.pad(sd_cmd_io),    .c2p(soc_sd_cmd_o),   .p2c(soc_sd_cmd_i),    .c2p_en(soc_sd_cmd_en_o));
+    sg13g2_IOPadInOut30mA pad_sd_dat0_io   (.pad(sd_dat0_io),   .c2p(soc_sd_dat_o[0]),.p2c(soc_sd_dat_i[0]), .c2p_en(soc_sd_dat_en_o));
+    sg13g2_IOPadInOut30mA pad_sd_dat1_io   (.pad(sd_dat1_io),   .c2p(soc_sd_dat_o[1]),.p2c(soc_sd_dat_i[1]), .c2p_en(soc_sd_dat_en_o));
+    sg13g2_IOPadInOut30mA pad_sd_dat2_io   (.pad(sd_dat2_io),   .c2p(soc_sd_dat_o[2]),.p2c(soc_sd_dat_i[2]), .c2p_en(soc_sd_dat_en_o));
+    sg13g2_IOPadInOut30mA pad_sd_dat3_io   (.pad(sd_dat3_io),   .c2p(soc_sd_dat_o[3]),.p2c(soc_sd_dat_i[3]), .c2p_en(soc_sd_dat_en_o));
 
     sg13g2_IOPadInOut30mA pad_gpio0_io     (.pad(gpio0_io),     .c2p(soc_gpio_o[0]),  .p2c(soc_gpio_i[0]),   .c2p_en(soc_gpio_out_en_o[0]));
     sg13g2_IOPadInOut30mA pad_gpio1_io     (.pad(gpio1_io),     .c2p(soc_gpio_o[1]),  .p2c(soc_gpio_i[1]),   .c2p_en(soc_gpio_out_en_o[1]));
@@ -126,12 +142,6 @@ module croc_chip import croc_pkg::*; #() (
     sg13g2_IOPadInOut30mA pad_gpio27_io    (.pad(gpio27_io),    .c2p(soc_gpio_o[27]), .p2c(soc_gpio_i[27]),  .c2p_en(soc_gpio_out_en_o[27]));
     sg13g2_IOPadInOut30mA pad_gpio28_io    (.pad(gpio28_io),    .c2p(soc_gpio_o[28]), .p2c(soc_gpio_i[28]),  .c2p_en(soc_gpio_out_en_o[28]));
     sg13g2_IOPadInOut30mA pad_gpio29_io    (.pad(gpio29_io),    .c2p(soc_gpio_o[29]), .p2c(soc_gpio_i[29]),  .c2p_en(soc_gpio_out_en_o[29]));
-    sg13g2_IOPadInOut30mA pad_gpio30_io    (.pad(gpio30_io),    .c2p(soc_gpio_o[30]), .p2c(soc_gpio_i[30]),  .c2p_en(soc_gpio_out_en_o[30]));
-    sg13g2_IOPadInOut30mA pad_gpio31_io    (.pad(gpio31_io),    .c2p(soc_gpio_o[31]), .p2c(soc_gpio_i[31]),  .c2p_en(soc_gpio_out_en_o[31]));
-    sg13g2_IOPadOut16mA pad_unused0_o      (.pad(unused0_o),    .c2p(soc_status_o));
-    sg13g2_IOPadOut16mA pad_unused1_o      (.pad(unused1_o),    .c2p(soc_status_o));
-    sg13g2_IOPadOut16mA pad_unused2_o      (.pad(unused2_o),    .c2p(soc_status_o));
-    sg13g2_IOPadOut16mA pad_unused3_o      (.pad(unused3_o),    .c2p(soc_status_o));
 
     (* dont_touch = "true" *)sg13g2_IOPadVdd pad_vdd0();
     (* dont_touch = "true" *)sg13g2_IOPadVdd pad_vdd1();
@@ -172,6 +182,14 @@ module croc_chip import croc_pkg::*; #() (
 
     .uart_rx_i      ( soc_uart_rx_i ),
     .uart_tx_o      ( soc_uart_tx_o ),
+
+    .sd_clk_o       ( soc_sd_clk_o    ),
+    .sd_cmd_i       ( soc_sd_cmd_i    ),
+    .sd_cmd_o       ( soc_sd_cmd_o    ),
+    .sd_cmd_en_o    ( soc_sd_cmd_en_o ),
+    .sd_dat_i       ( soc_sd_dat_i    ),
+    .sd_dat_o       ( soc_sd_dat_o    ),
+    .sd_dat_en_o    ( soc_sd_dat_en_o ),
 
     .gpio_i         ( soc_gpio_i        ),             
     .gpio_o         ( soc_gpio_o        ),            
