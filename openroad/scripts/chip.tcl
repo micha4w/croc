@@ -48,9 +48,13 @@ report_checks -unconstrained -format end -no_line_splits >> ${report_dir}/${log_
 report_checks -format end -no_line_splits                >> ${report_dir}/${log_id_str}_${proj_name}_checks.rpt
 report_checks -format end -no_line_splits                >> ${report_dir}/${log_id_str}_${proj_name}_checks.rpt
 
+
 # Size of the chip
-set chipW            1760.0
-set chipH            1760.0
+set sealRingW    50
+set bodingPadsW  70
+
+set chipH            [expr 2235.0 - 2*($sealRingW + $bondingPadsW)]
+set chipW            $chipH
 
 # thickness of annular ring for pads (length of a pad)
 set padRing           180.0
@@ -115,7 +119,7 @@ utl::report "###################################################################
 utl::report "# Step ${log_id_str}: GLOBAL PLACEMENT"
 utl::report "###############################################################################"
 
-set_thread_count 8
+set_thread_count [expr [exec getconf _NPROCESSORS_ONLN] - 1]
 
 set GPL_ARGS {  -density 0.60 }
 
@@ -307,7 +311,6 @@ repair_antennas -ratio_margin 30 -iterations 5
 # check_antennas
 
 utl::report "Detailed route"
-set_thread_count 8
 detailed_route -output_drc ${report_dir}/${log_id_str}_${proj_name}_route_drc.rpt \
                -bottom_routing_layer Metal2 \
                -top_routing_layer TopMetal1 \

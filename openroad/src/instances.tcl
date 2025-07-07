@@ -24,14 +24,19 @@ set IBEX            $CROC/i_core_wrap.i_ibex
 set SRAM            $CROC/gen_sram_bank
 set JTAG            $CROC/i_dmi_jtag
 set SRAM_512x32     gen_512x32xBx1.i_cut
+set SRAM_1024x32    gen_1024x32xBx1.i_cut
 
 # memory banks
 set sram {\[0\].i_sram/}
-set bank0_sram0 $SRAM$sram$SRAM_512x32
+set bank0_sram0 $SRAM$sram$SRAM_1024x32
 set sram {\[1\].i_sram/}
-set bank1_sram0 $SRAM$sram$SRAM_512x32
+set bank1_sram0 $SRAM$sram$SRAM_1024x32
+set sram {\[2\].i_sram/}
+set bank2_sram0 $SRAM$sram$SRAM_1024x32
+set sram {\[3\].i_sram/}
+set bank3_sram0 $SRAM$sram$SRAM_1024x32
+
+set sdhc_bank_sram [get_name [get_cells $USER/*i_user_sdhci*$SRAM_512x32]]
 
 set JTAG_ASYNC_REQ [get_nets $JTAG/i_dmi_cdc.i_cdc_req/*async_*]
 set JTAG_ASYNC_RSP [get_nets $JTAG/i_dmi_cdc.i_cdc_resp/*async_*]
-
-set sdhc_bank_sram [get_name [get_cells $USER/*i_user_sdhci*$SRAM_512x32]]
