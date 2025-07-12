@@ -23,6 +23,7 @@ index 00000000..73be92b7
 +
 +sources:
 +  - include_dirs:
++    - ../common_cells/include
 +    - include
 +    files:
 +    # Source files grouped in levels. Files in level 0 have no dependencies on files in this
