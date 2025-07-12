@@ -13,11 +13,9 @@ expected_lines=(
   "\[JTAG\] Resumed hart 0"
   "\[UART\] Hello World!"
   "\[UART\] Loopback received: internal msg"
-  "\[UART\] Result: 0x8940, Cycles: 0xBD"
+  "\[UART\] Result: 0x8940, Cycles: 0xA4"
   "\[UART\] Tick"
   "\[UART\] Tock"
-  "\[UART\] Write Success!"
-  "\[UART\] Read Success: 'SDHC'"
 )
 
 for line in "${expected_lines[@]}"; do

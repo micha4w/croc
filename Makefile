@@ -51,7 +51,7 @@ clean-deps:
 ############
 # Software #
 ############
-SW_HEX := sw/bin/helloworld.hex
+SW_HEX := sw/bin/sdhc.hex
 
 $(SW_HEX): sw/*.c sw/*.h sw/*.S sw/*.ld sw/lib/src/*.c sw/lib/inc/*.h
 	$(MAKE) -C sw/ compile
@@ -103,7 +103,7 @@ VERILATOR_ARGS +=  --assert
 VERILATOR_CFLAGS += -O3 -march=native -mtune=native
 
 verilator/croc.f: Bender.lock Bender.yml
-	$(BENDER) script verilator -t rtl -t verilator -t with_sd_model -DSYNTHESIS -DVERILATOR > $@ 
+	$(BENDER) script verilator -t rtl -t verilator -t with_sd_model -DSYNTHESIS > $@ 
 
 verilator/obj_dir/Vtb_croc_soc: verilator/croc.f $(SW_HEX)
 	cd verilator; $(VERILATOR) $(VERILATOR_ARGS) -O3 --top tb_croc_soc config.vlt -f croc.f
@@ -114,6 +114,10 @@ verilator: verilator/obj_dir/Vtb_croc_soc
 
 .PHONY: verilator vsim vsim-yosys
 
+gtkwave:
+	gtkwave verilator/croc.vcd verilator/sdhci_obi.gtkw
+
+.PHONY: gtkwave
 
 ####################
 # Open Source Flow #
