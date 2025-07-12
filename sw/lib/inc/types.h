@@ -8,7 +8,7 @@
 
 
 #define SDHC_DEBUG
-#define SDMMC_DEBUG
+// #define SDMMC_DEBUG
 
 #ifdef SDHC_DEBUG
 extern int debug_funcs;

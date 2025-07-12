@@ -105,13 +105,13 @@ utl::report "Place Macros"
 set X [expr $floor_leftX]
 set Y [expr $floor_topY - $RamSize512x64_W]
 placeInstance $bank0_sram0 $X $Y R90
-set X [expr $X + $RamSize512x64_H + 15]
+set X [expr $X + $RamSize512x64_H + 30]
 placeInstance $bank1_sram0 $X $Y R90
 
 set X [expr $floor_rightX - $RamSize512x64_H]
 set Y [expr $floor_topY - $RamSize512x64_W]
 placeInstance $bank2_sram0 $X $Y R270
-set X [expr $X - $RamSize512x64_H - 15]
+set X [expr $X - $RamSize512x64_H - 30]
 placeInstance $bank3_sram0 $X $Y R270
 
 

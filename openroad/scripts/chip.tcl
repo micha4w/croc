@@ -50,7 +50,7 @@ report_checks -format end -no_line_splits                >> ${report_dir}/${log_
 
 
 # Size of the chip
-set sealRingW    50
+set sealRingW    39
 set bondingPadW  70
 
 set chipH            [expr 2235.0 - 2*($sealRingW + $bondingPadW)]
