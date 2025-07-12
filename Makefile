@@ -120,7 +120,7 @@ verilator: verilator/obj_dir/Vtb_croc_soc
 .PHONY: verilator vsim vsim-yosys
 
 gtkwave:
-	gtkwave verilator/croc.vcd verilator/sdhci_obi.gtkw
+	gtkwave verilator/croc.fst verilator/sdhci_obi.gtkw
 
 .PHONY: gtkwave
 
