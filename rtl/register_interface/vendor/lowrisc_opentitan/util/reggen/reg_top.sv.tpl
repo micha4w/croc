@@ -438,7 +438,7 @@ ${finst_gen(f, finst_name, fsig_name, r.hwext, r.regwen, r.shadowed)}
   always_comb begin
     addr_hit = '0;
     % for i,r in enumerate(regs_flat):
-    addr_hit[${"{}".format(i).rjust(max_regs_char)}] = |(reg_be & ${ublock}_BYTEMASK[${"{}".format(i).rjust(max_regs_char)}]) && reg_addr == ${ublock}_${r.name.upper()}_OFFSET;
+    addr_hit[${"{}".format(i).rjust(max_regs_char)}] = reg_addr == ${ublock}_${r.name.upper()}_OFFSET;
     % endfor
   end
 
@@ -530,8 +530,6 @@ ${rdata_gen(f, r.name.lower() + "_" + f.name.lower())}\
   // property by mistake
   //`ASSUME(reqParity, tl_reg_h2d.a_valid |-> tl_reg_h2d.a_user.chk_en == tlul_pkg::CheckDis)
 % endif
-  `ASSERT(en2addrHit, (reg_we || reg_re) |-> $onehot0(addr_hit))
-
 % endif
 endmodule
 
@@ -781,12 +779,12 @@ ${space}\
   assign ${sig_name}_wd = reg_wdata[${str_bits_sv(field.bits)}];
   % else:
   ## Generate WE based on read request, read should clear
-  assign ${sig_name}_we = addr_hit[${idx}] & reg_re & !reg_error & (|(${bytemask} & reg_be));
+  assign ${sig_name}_we = addr_hit[${idx}] & reg_re & !reg_error;
   assign ${sig_name}_wd = '1;
   % endif
 % endif
 % if needs_re:
-  assign ${sig_name}_re = addr_hit[${idx}] & reg_re & !reg_error & (|(${bytemask} & reg_be));
+  assign ${sig_name}_re = addr_hit[${idx}] & reg_re & !reg_error;
 % endif
 </%def>\
 <%def name="rdata_gen(field, sig_name)">\
