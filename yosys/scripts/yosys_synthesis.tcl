@@ -48,15 +48,17 @@ yosys setattr -set keep_hierarchy 1 "t:tc_sram_impl$*"
 yosys setattr -set keep_hierarchy 1 "t:cdc_*$*"
 yosys setattr -set keep_hierarchy 1 "t:sync$*"
 yosys setattr -set keep_hierarchy 1 "t:user_sdhci$*"
-yosys setattr -set keep_hierarchy 1 "t:dat_buffer$*"
-yosys setattr -set keep_hierarchy 1 "t:dat_wrap$*"
-yosys setattr -set keep_hierarchy 1 "t:cmd_wrap$*"
-yosys setattr -set keep_hierarchy 1 "t:dat_write$*"
-yosys setattr -set keep_hierarchy 1 "t:dat_read$*"
-yosys setattr -set keep_hierarchy 1 "t:cmd_write$*"
-yosys setattr -set keep_hierarchy 1 "t:rsp_read$*"
-yosys setattr -set keep_hierarchy 1 "t:sdhci_reg_obi$*"
-yosys setattr -set keep_hierarchy 1 "t:sd_clk_generator$*"
+
+# Uncomment these to be able to get values for the individual parts of user_sdhci
+# yosys setattr -set keep_hierarchy 1 "t:dat_buffer$*"
+# yosys setattr -set keep_hierarchy 1 "t:dat_wrap$*"
+# yosys setattr -set keep_hierarchy 1 "t:cmd_wrap$*"
+# yosys setattr -set keep_hierarchy 1 "t:dat_write$*"
+# yosys setattr -set keep_hierarchy 1 "t:dat_read$*"
+# yosys setattr -set keep_hierarchy 1 "t:cmd_write$*"
+# yosys setattr -set keep_hierarchy 1 "t:rsp_read$*"
+# yosys setattr -set keep_hierarchy 1 "t:sdhci_reg_obi$*"
+# yosys setattr -set keep_hierarchy 1 "t:sd_clk_generator$*"
 
 
 # blackbox modules (applies the *blackbox* attribute)

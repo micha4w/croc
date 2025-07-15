@@ -4,7 +4,7 @@
 
 # Authors:
 # - Tobias Senti <tsenti@ethz.ch>
-# - Jannis Schönleber <janniss@iis.ee.ethz.ch>
+# - Jannis SchÃ¶nleber <janniss@iis.ee.ethz.ch>
 # - Philippe Sauter   <phsauter@iis.ee.ethz.ch>
 
 # Power planning
@@ -42,7 +42,7 @@ set pgcrOffset [expr ($PowRingSpace - $pgcrSpacing - 2 * $pgcrWidth) / 2]
 set tpg2Width     6; # arbitrary number
 set tpg2Pitch   204; # multiple of pad-pitch
 set tpg2Spacing  60; # big enough to skip over a pad
-set tpg2Offset   97; # offset from leftX of core
+set tpg2Offset   47; # offset from leftX of core
 
 # Macro Power Rings -> M3 and M2
 ## Spacing must be larger than pitch of M2/M3
@@ -118,13 +118,14 @@ add_pdn_stripe -grid {core_grid} -layer {Metal1} -width {0.44} -offset {0} \
                -followpins -extend_to_core_ring
 
 
-sram_power "sram_256x64"  "RM_IHPSG13_1P_256x64_c2_bm_bist"
+sram_power "sram_256x64" "RM_IHPSG13_1P_256x64_c2_bm_bist"
+sram_power "sram_1024x64" "RM_IHPSG13_1P_1024x64_c2_bm_bist"
 
 # Top power grid
 # Top 2 Stripe
 add_pdn_stripe -grid {core_grid} -layer {TopMetal2} -width $tpg2Width \
                -pitch $tpg2Pitch -spacing $tpg2Spacing -offset $tpg2Offset \
-               -extend_to_core_ring -snap_to_grid -number_of_straps 7
+               -extend_to_core_ring -snap_to_grid -number_of_straps 8
 
 # "The add_pdn_connect command is used to define which layers in the power grid are to be connected together.
 #  During power grid generation, vias will be added for overlapping power nets and overlapping ground nets."
@@ -143,3 +144,5 @@ add_pdn_connect -grid {core_grid} -layers {Metal3 Metal2}
 ##  Generate
 ##########################################################################
 pdngen -failed_via_report ${report_dir}/${log_id_str}_${proj_name}_pdngen.rpt
+
+# gui::show

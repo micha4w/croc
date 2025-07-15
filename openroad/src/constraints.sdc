@@ -141,6 +141,5 @@ set_input_delay -clock [get_clocks SD_CLK] -min  5.0 $sd_ports
 set_output_delay -clock [get_clocks SD_CLK] -max -3.0 $sd_ports
 set_output_delay -clock [get_clocks SD_CLK] -min  3.0 $sd_ports
 
-# TODO
-# set_output_delay -clock clk_sys -max -3.0 [get_ports sd_clk_o]
-# set_output_delay -clock clk_sys -min  3.0 [get_ports sd_clk_o]
+set_output_delay -clock clk_sys -max -1.0 [get_ports sd_clk_o]
+set_output_delay -clock clk_sys -min  1.0 [get_ports sd_clk_o]

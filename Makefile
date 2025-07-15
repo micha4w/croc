@@ -175,7 +175,7 @@ ROOT_DIR    := $(shell pwd)
 VIVADO_DIR  := $(ROOT_DIR)/vivado
 SCRIPTS_DIR := $(ROOT_DIR)/scripts_vivado
 
-PROJ_NAME := croc-sd-fpga
+PROJ_NAME := croc
 
 VIVADO ?= vitis-2023.2 vivado
 
