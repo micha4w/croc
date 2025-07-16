@@ -91,33 +91,43 @@ module croc_xilinx #(
   //////////////
   // Croc SoC //
   //////////////
+  logic sd_cmd_i, sd_cmd_o, sd_cmd_en_o, sd_dat_en_o;
+  logic [3:0] sd_dat_i, sd_dat_o;
 
   croc_soc #(
     .GpioCount( GpioCount )
   )
   i_croc_soc (
-    .clk_i           ( soc_clk      ),
-    .rst_ni          ( rst_n        ),
-    .ref_clk_i       ( rtc_clk_q    ),
-    .testmode_i      ( '0           ),
-    .fetch_en_i      ( fetch_en_i   ),
-    .status_o        ( status_o     ),
-    .jtag_tck_i      ( jtag_tck_i   ),
-    .jtag_tdi_i      ( jtag_tdi_i   ),
-    .jtag_tdo_o      ( jtag_tdo_o   ),
-    .jtag_tms_i      ( jtag_tms_i   ),
-    .jtag_trst_ni    ( '1           ),
-    .uart_rx_i       ( uart_rx_i    ),
-    .uart_tx_o       ( uart_tx_o    ),
-    .sd_clk_o        (sd_clk_o      ),
-    .sd_cmd_io       (sd_cmd_io     ),
-    .sd_dat0_io      (sd_dat0_io    ),
-    .sd_dat1_io      (sd_dat1_io    ),
-    .sd_dat2_io      (sd_dat2_io    ),
-    .sd_dat3_io      (sd_dat3_io    ),
-    .gpio_i          ( gpio_in      ),
-    .gpio_o          ( gpio_out     ),
-    .gpio_out_en_o   ( gpio_out_en  ) 
+    .clk_i          ( soc_clk     ),
+    .rst_ni         ( rst_n       ),
+    .ref_clk_i      ( rtc_clk_q   ),
+    .testmode_i     ( '0          ),
+    .fetch_en_i     ( fetch_en_i  ),
+    .status_o       ( status_o    ),
+    .jtag_tck_i     ( jtag_tck_i  ),
+    .jtag_tdi_i     ( jtag_tdi_i  ),
+    .jtag_tdo_o     ( jtag_tdo_o  ),
+    .jtag_tms_i     ( jtag_tms_i  ),
+    .jtag_trst_ni   ( '1          ),
+    .uart_rx_i      ( uart_rx_i   ),
+    .uart_tx_o      ( uart_tx_o   ),
+    .sd_clk_o       ( sd_clk_o    ),
+    .sd_cmd_i       ( sd_cmd_i    ),
+    .sd_cmd_o       ( sd_cmd_o    ),
+    .sd_cmd_en_o    (sd_bus_cmd_en_o),
+    .sd_dat_i       ( sd_dat_i    ),
+    .sd_dat_o       ( sd_dat_o    ),
+    .sd_dat_en_o    ( sd_dat_en_o ),
+    .gpio_i         ( gpio_in     ),
+    .gpio_o         ( gpio_out    ),
+    .gpio_out_en_o  ( gpio_out_en ) 
   );
 
+  assign sd_cmd_i   = sd_cmd_io;
+  assign sd_cmd_io  = (sd_cmd_en_o) ? sd_cmd_o : 1'bZ;
+  assign sd_dat_i   = {sd_dat0_io, sd_dat1_io, sd_dat2_io, sd_dat3_io};
+  assign sd_dat0_io = (sd_dat_en_o) ? sd_dat_o[0] : 1'bZ;
+  assign sd_dat1_io = (sd_dat_en_o) ? sd_dat_o[1] : 1'bZ;
+  assign sd_dat2_io = (sd_dat_en_o) ? sd_dat_o[2] : 1'bZ;
+  assign sd_dat3_io = (sd_dat_en_o) ? sd_dat_o[3] : 1'bZ;
 endmodule
