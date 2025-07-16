@@ -7,7 +7,7 @@
 #include "print.h"
 
 
-#define SDHC_DEBUG
+// #define SDHC_DEBUG
 // #define SDMMC_DEBUG
 
 #ifdef SDHC_DEBUG
