@@ -172,7 +172,7 @@ vendor_package:
 
   - name: register_interface
     target_dir: rtl/register_interface
-    upstream: { git: "https://github.com/micha4w/register_interface.git", rev: "a1c49ddd6962da073c31136a5b082518783b1a59" } # master
+    upstream: { git: "https://github.com/micha4w/register_interface.git", rev: "b699586fb2d57521552963031ca61768ad156113" } # master
     patch_dir: "rtl/patches/register_interface"
     mapping:
       - { from: 'src/obi_to_reg.sv',             to: 'obi_to_reg.sv',                 patch_dir: 'src/' }

@@ -110,7 +110,7 @@ VERILATOR_CFLAGS += -O3 -march=native -mtune=native
 verilator/croc.f: Bender.lock Bender.yml
 	$(BENDER) script verilator -t rtl -t verilator -t with_sd_model -DSYNTHESIS > $@ 
 
-verilator/obj_dir/Vtb_croc_soc: verilator/croc.f $(SW_HEX)
+verilator/obj_dir/Vtb_croc_soc: verilator/croc.f $(SW_HEX) $(SV_FILE_LIST)
 	cd verilator; $(VERILATOR) $(VERILATOR_ARGS) -O3 --top tb_croc_soc config.vlt -f croc.f
 
 ## Simulate RTL using Verilator

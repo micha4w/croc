@@ -480,26 +480,21 @@ ${we_gen(f, r.name.lower() + "_" + f.name.lower(), r.hwext, r.shadowed, i)}\
   // Read data return
   always_comb begin
     reg_rdata_next = '0;
-    case (1'b1)
-      % for i, r in enumerate(regs_flat):
-        % if len(r.fields) == 1:
-      addr_hit[${i}]: begin
+    % for i, r in enumerate(regs_flat):
+      % if len(r.fields) == 1:
+    if (addr_hit[${i}]) begin
 ${rdata_gen(r.fields[0], r.name.lower())}\
-      end
+    end
 
-        % else:
-      addr_hit[${i}]: begin
-          % for f in r.fields:
+      % else:
+    if (addr_hit[${i}]) begin
+        % for f in r.fields:
 ${rdata_gen(f, r.name.lower() + "_" + f.name.lower())}\
-          % endfor
-      end
+        % endfor
+    end
 
-        % endif
-      % endfor
-      default: begin
-        reg_rdata_next = '1;
-      end
-    endcase
+      % endif
+    % endfor
   end
 % endif
 
