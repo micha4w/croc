@@ -114,7 +114,7 @@ module croc_xilinx #(
     .sd_clk_o       ( sd_clk_o    ),
     .sd_cmd_i       ( sd_cmd_i    ),
     .sd_cmd_o       ( sd_cmd_o    ),
-    .sd_cmd_en_o    (sd_bus_cmd_en_o),
+    .sd_cmd_en_o    (sd_cmd_en_o  ),
     .sd_dat_i       ( sd_dat_i    ),
     .sd_dat_o       ( sd_dat_o    ),
     .sd_dat_en_o    ( sd_dat_en_o ),
@@ -124,10 +124,10 @@ module croc_xilinx #(
   );
 
   assign sd_cmd_i   = sd_cmd_io;
-  assign sd_cmd_io  = (sd_cmd_en_o) ? sd_cmd_o : 1'bZ;
+  assign sd_cmd_io  = (sd_cmd_en_o) ? sd_cmd_o : 1'bz;
   assign sd_dat_i   = {sd_dat0_io, sd_dat1_io, sd_dat2_io, sd_dat3_io};
-  assign sd_dat0_io = (sd_dat_en_o) ? sd_dat_o[0] : 1'bZ;
-  assign sd_dat1_io = (sd_dat_en_o) ? sd_dat_o[1] : 1'bZ;
-  assign sd_dat2_io = (sd_dat_en_o) ? sd_dat_o[2] : 1'bZ;
-  assign sd_dat3_io = (sd_dat_en_o) ? sd_dat_o[3] : 1'bZ;
+  assign sd_dat0_io = (sd_dat_en_o) ? sd_dat_o[0] : 1'bz;
+  assign sd_dat1_io = (sd_dat_en_o) ? sd_dat_o[1] : 1'bz;
+  assign sd_dat2_io = (sd_dat_en_o) ? sd_dat_o[2] : 1'bz;
+  assign sd_dat3_io = (sd_dat_en_o) ? sd_dat_o[3] : 1'bz;
 endmodule
