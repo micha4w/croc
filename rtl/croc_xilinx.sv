@@ -125,7 +125,11 @@ module croc_xilinx #(
 
   assign sd_cmd_i   = sd_cmd_io;
   assign sd_cmd_io  = (sd_cmd_en_o) ? sd_cmd_o : 1'bz;
-  assign sd_dat_i   = {sd_dat0_io, sd_dat1_io, sd_dat2_io, sd_dat3_io};
+
+  assign sd_dat_i[0]  = sd_dat0_io;
+  assign sd_dat_i[1]  = sd_dat1_io;
+  assign sd_dat_i[2]  = sd_dat2_io;
+  assign sd_dat_i[3]  = sd_dat3_io;
   assign sd_dat0_io = (sd_dat_en_o) ? sd_dat_o[0] : 1'bz;
   assign sd_dat1_io = (sd_dat_en_o) ? sd_dat_o[1] : 1'bz;
   assign sd_dat2_io = (sd_dat_en_o) ? sd_dat_o[2] : 1'bz;
