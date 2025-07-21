@@ -21,6 +21,11 @@ source src/instances.tcl
 # As a default, drive multiple GPIO pads and be driven by one.
 # accomodate for driving up to 2 74HC pads plus a 5pF trace
 set_load [expr 2 * 5.0 + 5.0] [all_outputs]
+
+# SD bus and card cap. are max. 30pf per spec.
+set sd_ports [get_ports {sd_cmd_io sd_dat0_io sd_dat1_io sd_dat2_io sd_dat3_io}]
+set_load 30 $sd_ports
+
 set_driving_cell [all_inputs] -lib_cell sg13g2_IOPadOut16mA -pin pad
 
 
@@ -129,7 +134,6 @@ set_output_delay -max -add_delay -clock clk_sys [ expr $TCK_SYS * 0.30 ] [get_po
 ##########
 puts "SDIO..."
 
-set sd_ports [get_ports {sd_cmd_io sd_dat0_io sd_dat1_io sd_dat2_io sd_dat3_io}]
 create_generated_clock  -name SD_CLK \
                         -source [get_ports clk_i] \
                         -divide_by 1 \
