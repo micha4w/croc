@@ -78,8 +78,8 @@ source src/instances.tcl
 # Placing 
 ##########################################################################
 # use these for macro placement
-set floorPaddingX      20.0
-set floorPaddingY      20.0
+set floorPaddingX      30.0
+set floorPaddingY      30.0
 set floor_leftX       [expr $core_leftX + $floorPaddingX]
 set floor_bottomY     [expr $core_bottomY + $floorPaddingY]
 set floor_rightX      [expr $core_rightX - $floorPaddingX]
@@ -96,7 +96,7 @@ set Y [expr $floor_topY - $RamSize1024x64_H]
 place_macro -macro_name $bank0_sram0 -location [list $X $Y]
 
 set X [expr $X]
-set Y [expr $Y - $RamSize1024x64_H - 30]
+set Y [expr $Y - $RamSize1024x64_H - 50]
 place_macro -macro_name $bank1_sram0 -location [list $X $Y]
 
 # SDHC Bank
