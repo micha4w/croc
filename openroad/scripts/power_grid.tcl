@@ -41,8 +41,8 @@ set pgcrOffset [expr ($PowRingSpace - $pgcrSpacing - 2 * $pgcrWidth) / 2]
 # TopMetal2 Core Power Grid
 set tpg2Width     6; # arbitrary number
 set tpg2Pitch   204; # multiple of pad-pitch
-set tpg2Spacing  60; # big enough to skip over a pad
-set tpg2Offset   47; # offset from leftX of core
+set tpg2Spacing  38; # big enough to skip over a pad
+set tpg2Offset   55; # offset from leftX of core
 
 # Macro Power Rings -> M3 and M2
 ## Spacing must be larger than pitch of M2/M3
@@ -125,7 +125,8 @@ sram_power "sram_1024x64" "RM_IHPSG13_1P_1024x64_c2_bm_bist"
 # Top 2 Stripe
 add_pdn_stripe -grid {core_grid} -layer {TopMetal2} -width $tpg2Width \
                -pitch $tpg2Pitch -spacing $tpg2Spacing -offset $tpg2Offset \
-               -extend_to_core_ring -snap_to_grid -number_of_straps 8
+               -extend_to_core_ring -snap_to_grid -number_of_straps 8 \
+               -starts_with POWER
 
 # "The add_pdn_connect command is used to define which layers in the power grid are to be connected together.
 #  During power grid generation, vias will be added for overlapping power nets and overlapping ground nets."
