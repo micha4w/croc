@@ -25,6 +25,7 @@ set_load [expr 2 * 5.0 + 5.0] [all_outputs]
 # SD bus and card cap. are max. 30pf per spec.
 set sd_ports [get_ports {sd_cmd_io sd_dat0_io sd_dat1_io sd_dat2_io sd_dat3_io}]
 set_load 30 $sd_ports
+set_load 30 [get_ports sd_clk_o]
 
 set_driving_cell [all_inputs] -lib_cell sg13g2_IOPadOut16mA -pin pad
 
