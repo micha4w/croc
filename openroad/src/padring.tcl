@@ -31,6 +31,8 @@
 #
 # pad pitch (min)            90.0     90.0
 
+# Because our pin pads our outside the die area (idk why they are, but they are)
+suppress_message GRT 39
 
 make_io_sites -horizontal_site sg13g2_ioSite \
     -vertical_site sg13g2_ioSite \
@@ -156,7 +158,7 @@ connect_by_abutment
 
 # Bondpad as seperate cell placed in OpenROAD:
 # place the bonding pad relative to the IO cell
-place_bondpad -bond bondpad_70x70 -offset {5.0 -70.0} pad_*
+place_bondpad -bond bondpad_70x70 -offset {5.0 -70} pad_*
 
 # remove rows created by via make_io_sites as they are no longer needed
 remove_io_rows

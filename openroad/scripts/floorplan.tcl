@@ -88,21 +88,22 @@ set floor_midpointX   [expr $floor_leftX + ($floor_rightX - $floor_leftX)/2]
 set floor_midpointY   [expr $floor_bottomY + ($floor_topY - $floor_bottomY)/2]
 
 utl::report "Place Macros"
-
+# using place_macro because it aligns the macro pins to the grid
 
 # Croc SRAM
 set X [expr $floor_rightX - $RamSize1024x64_W]
 set Y [expr $floor_topY - $RamSize1024x64_H]
-placeInstance $bank0_sram0 $X $Y R0
+place_macro -macro_name $bank0_sram0 -location [list $X $Y]
+
 set X [expr $X]
 set Y [expr $Y - $RamSize1024x64_H - 30]
-placeInstance $bank1_sram0 $X $Y R0
+place_macro -macro_name $bank1_sram0 -location [list $X $Y]
 
 # SDHC Bank
 set X [expr $floor_midpointX - $RamSize256x64_W/2]
 set Y [expr $floor_bottomY]
-placeInstance $sdhc_bank_sram $X $Y MX
+place_macro -macro_name $sdhc_bank_sram -location [list $X $Y] -orientation MX
 
-cut_rows -halo_width_x 2 -halo_width_y 1
+cut_rows -halo_width_x 2 -halo_width_y 6
 
 # gui::show
