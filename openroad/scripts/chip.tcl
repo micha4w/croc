@@ -77,7 +77,6 @@ source scripts/power_grid.tcl
 save_checkpoint 00_${proj_name}.power_grid
 report_image "00_${proj_name}.power" true
 
-
 ###############################################################################
 # Initial Repair Netlist                                                      #
 ###############################################################################
@@ -121,9 +120,9 @@ utl::report "###################################################################
 
 set_thread_count [expr [exec getconf _NPROCESSORS_ONLN] - 1]
 
-set GPL_ARGS {  -density 0.60 }
+set GPL_ARGS {  -density 0.6 }
 
-set GPL2_ARGS { -density 0.60
+set GPL2_ARGS { -density 0.6
                 -routability_driven
                 -routability_check_overflow 0.30
                 -timing_driven }
@@ -223,7 +222,7 @@ report_metrics "${log_id_str}_${proj_name}.cts_unrepaired"
 
 # repair all setup timing
 utl::report "Repair setup"
-repair_timing -setup -skip_pin_swap -verbose
+repair_timing -setup -skip_pin_swap -verbose -setup_margin 0.2
 
 # place inserted cells
 utl::report "Detailed placement"
@@ -276,8 +275,9 @@ grt::set_verbose 0
 utl::report "Perform buffer insertion..."
 repair_design -verbose
 utl::report "Repair setup and hold violations..."
-repair_timing -skip_pin_swap -setup -verbose -repair_tns 100
+repair_timing -skip_pin_swap -setup -verbose -repair_tns 100 -setup_margin 0.4
 repair_timing -skip_pin_swap -hold -hold_margin 0.1 -verbose -repair_tns 100
+
 
 utl::report "GRT incremental..."
 # Run to get modified net by DPL
@@ -359,4 +359,4 @@ write_sdc                      out/${proj_name}.sdc
 # read_spef  out/${proj_name}.spef; # readback parasitics for OpenSTA
 # report_metrics "${log_id_str}_${proj_name}.extract"
 
-exit
+gui::show
