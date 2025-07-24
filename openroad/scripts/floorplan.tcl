@@ -91,7 +91,7 @@ utl::report "Place Macros"
 # using place_macro because it aligns the macro pins to the grid
 
 # Croc SRAM
-set X [expr $floor_rightX - $RamSize1024x64_W]
+set X [expr $floor_leftX]
 set Y [expr $floor_topY - $RamSize1024x64_H]
 place_macro -macro_name $bank0_sram0 -location [list $X $Y]
 
