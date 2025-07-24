@@ -149,5 +149,4 @@ set_output_delay -clock [get_clocks SD_CLK] -min  3.0 $sd_ports
 set_output_delay -clock clk_sys -max  2.0 [get_ports sd_clk_o]
 set_output_delay -clock clk_sys -min  0.0 [get_ports sd_clk_o]
 
-set_false_path -hold \
-               -from [get_pins -hierarchical */pad_sd_*_io/c2p_en]
+set_false_path -hold -through [get_pins pad_sd_*_io/c2p_en]
